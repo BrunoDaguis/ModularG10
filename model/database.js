@@ -1,0 +1,5 @@
+var database = {
+	init: function(){
+		
+	}
+}

@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<% include partial/css %>
+	</head>
+	<body>
+	<!-- THE HEADER -->
+		<% include partial/header %>	
+		
+	<!-- MAIN CONTENT -->
+	<div id="content-block">
+		<div class="container be-detail-container">
+			<h2 class="content-title"><%= tag %></h2>
+			<div class="blog-wrapper blog-grid">
+				<div class="row">
+					<% data.forEach(function(post) { %>
+						<div class="grid-item col-xs-12 col-sm-6 col-md-4">
+							<div class="blog-post">
+								<div class="post-header clearfix">
+									<div class="post-date">
+										<i class="fa fa-clock-o"></i> April 23, 2015
+									</div>
+									<div class="author-post">
+										<img src="\img\a1.png" alt="" class="ava-author">
+										<span>Por <a href="/user/<%= post.user._id %>"><%= post.user.name %></a></span>
+									</div>
+								</div>						
+								<a class="post-preview post-image" href="/post/<%= post.url %>"><img class="img-responsive img-full" src="\img\blog_grid_1.jpg" alt=""></a>
+								<div class="post-desc">
+									<a class="post-label" href="/post/<%= post.url %>"><%= post.title %></a>
+									<div class="post-text"><%= post.description %></div>
+									<a class="btn color-1 size-2 hover-1" href="/post/<%= post.url %>">Leia Mais</a>
+									<div class="info-block">
+										<span><i class="fa fa-thumbs-o-up"></i> <%= post.likes %></span>
+										<span><i class="fa fa-eye"></i> 789</span>
+										<span><i class="fa fa-comment-o"></i> <%= post.comments.length %></span>
+									</div>																
+								</div>
+							</div>					
+						</div>
+				    <% }); %>																																							
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- THE FOOTER -->
+	<% include partial/footer %>
+	</body>
+</html>
