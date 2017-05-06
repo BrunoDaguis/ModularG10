@@ -2,9 +2,8 @@ var http = require('http'),
     fs = require('fs'),
     hash = require('./pass').hash;
 
-/*var cookieParser = require('cookie-parser')
-var session = require('express-session')
-*/
+var session = require('express-session');
+
 
 var express = require('express');
 var mongoose = require('mongoose');
@@ -19,14 +18,12 @@ var app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-/*app.use(cookieParser());                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 app.use(session({
-  secret: 'keyboard cat',
+  secret: '1q2w3e4r5t6y7u8i9o0p',
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
-}));  */ 
+  saveUninitialized: true
+}));
 
 app.set('view engine', 'ejs');
 
@@ -46,22 +43,8 @@ app.listen(app.get('port'), () => {
 	console.log('listening on 5000')
 });
 
-var path = require ('path');
-app.use(express.static(path.join(__dirname + '.../views')));
+app.use(express.static('./views'));
 
-//app.use(express.static('./views'));
-
-/*app.use(function(req, res, next){  
-	
-  var err = req.session.error                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-    , msg = req.session.success;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-  delete req.session.error;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-  delete req.session.success;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-  res.locals.message = '';                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-  if (err) res.locals.message = '<p class="msg error">' + err + '</p>';                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-  if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>';                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-  next();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-}); */
 
 function authenticate(email, pass, fn) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
   	if (!module.parent) console.log('authenticating %s:%s', email, pass);       
@@ -82,15 +65,23 @@ function restrict(req, res, next) {
 
 app.get('/', function (req, res) {
 	postModel.get(function(results){
-		res.render('index', {data: results});
+		res.render('index', {data: results, session: req.session.user});
 	});	
+});
+
+app.get('/user', function (req, res) {
+	userModel.get(function(users){
+		postModel.getByUser(user._id, function(posts){
+			res.render('author', {user: user, posts: posts, session: req.session.user});
+		});	
+	});			
 });
 
 app.get('/post/:url', function (req, res) {
 	postModel.getByUrl(req.params.url, function(post){
 		postModel.getByTags(post.tags, function(relateds){
 			postModel.getByUser(post.user._id, function(postsByUser){
-				res.render('interna-post', {data: post, relateds: relateds, postsByUser: postsByUser});
+				res.render('interna-post', {data: post, relateds: relateds, postsByUser: postsByUser, session: req.session.user});
 			});			
 		});			
 	});
@@ -98,14 +89,14 @@ app.get('/post/:url', function (req, res) {
 
 app.get('/post/tags/:tag', function (req, res) {
 	postModel.getByTags(req.params.tag, function(posts){
-		res.render('blog-listagem-tags', {data: posts, tag: req.params.tag});
+		res.render('blog-listagem-tags', {data: posts, tag: req.params.tag, session: req.session.user});
 	});			
 });
 
 app.get('/user/:user', function (req, res) {
 	userModel.getById(req.params.user, function(user){
 		postModel.getByUser(user._id, function(posts){
-			res.render('author', {user: user, posts: posts});
+			res.render('author', {user: user, posts: posts, session: req.session.user});
 		});	
 	});			
 });
@@ -120,14 +111,18 @@ app.get('/api/user', function (req, res) {
 	});
 });
 
+app.get('/api/user/session', function (req, res) {
+	if(!req.session.user){
+		return res.status(401).send();
+	}
+
+	return res.status(200).send();
+});
+
 app.get('/api/user/:id', function (req, res) {
 	userModel.getById(req.params.id, function(result){
 		res.json(result);
 	});
-});
-
-app.get('/api/user/session', function (req, res) {
-	res.json(req.session.user);
 });
 
 app.post('/api/user', (req, res) => {
@@ -156,15 +151,14 @@ app.post('/api/user/login', (req, res) => {
 			req.session.regenerate(function(){                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 				// Store the user's primary key                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
 				// in the session store to be retrieved,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-				// or in this case the entire user object                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+				// or in this case the entire user object                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 				req.session.user = {_id: user._id, name: user.name};                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-				res.json({ success: true });                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+				res.json({ user: req.session.user });                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 			});                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 		} else {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-			res.json({ success: false });                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+			return res.status(400).send();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
 		}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-	});    
-	
+	});    	
 });
 
 

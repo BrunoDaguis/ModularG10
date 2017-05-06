@@ -432,44 +432,13 @@
 		$("#formLogin").submit(function(e){
 			e.preventDefault();
 
-            var obj = {
-                email: $("#email").val(),
-                password: $("#password").val()
-            }
-
-            ajax.send({
-                url: "/api/user/login",
-                data: JSON.stringify(obj),
-                method: "POST",
-                beforeSend: function () {
-
-                },
-                success: function (response) {
-                    if (!response){
-                    	alert("Email ou senha inválidos.");
-                    	return;
-                    }
-                        
-                    localStorage.setItem('id', response._id);
-                    localStorage.setItem('name', response._id)
-
-                    location.href = '/';
-                },
-                complete: function () {
-
-                },
-                error: function (error) {
-
-                }
-            });
+			login();
 		});
 	})
 	function login(){
 		$("#formLogin").submit(function(e){
 			e.preventDefault();
 
-			e.preventDefault();
-                
             var obj = {
                 email: $("#email").val(),
                 password: $("#password").val()
@@ -483,10 +452,7 @@
 
                 },
                 success: function (response) {
-                    if (!response.success)
-                        alert(response.message);
-
-                    locationStorage.setItem('user', response._id)
+                    localStorage.setItem('user', response._id)
 
                     location.href = '/';
                 },
@@ -494,7 +460,7 @@
 
                 },
                 error: function (error) {
-
+                	alert('Email/Senha Inválidos');
                 }
             });
 		});

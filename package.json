@@ -14,12 +14,13 @@
     "angular-route": "^1.5.11",
     "angular-sanitize": "^1.5.11",
     "body-parser": "^1.15.2",
+    "cookie": "0.3.1",
+    "cookie-signature": "1.0.6",
     "ejs": "^2.4.2",
     "express": "^4.14.0",
+    "express-session": "^1.15.2",
     "mongodb": "^2.2.4",
     "mongoose": "^4.5.5",
-    "textangular": "^1.5.16",
-    "cookie": "0.3.1",
-    "cookie-signature": "1.0.6"
+    "textangular": "^1.5.16"
   }
 }
