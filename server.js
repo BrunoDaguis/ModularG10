@@ -46,7 +46,10 @@ app.listen(app.get('port'), () => {
 	console.log('listening on 5000')
 });
 
-app.use(express.static('./views'));
+var path = require ('path');
+app.use(express.static(path.join(__dirname + '.../views')));
+
+//app.use(express.static('./views'));
 
 /*app.use(function(req, res, next){  
 	
