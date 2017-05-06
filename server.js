@@ -47,7 +47,7 @@ app.listen(app.get('port'), () => {
 
 app.use(express.static('./views'));
 
-app.use(function(req, res, next){  
+/*app.use(function(req, res, next){  
 	
   var err = req.session.error                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
     , msg = req.session.success;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
@@ -57,7 +57,7 @@ app.use(function(req, res, next){
   if (err) res.locals.message = '<p class="msg error">' + err + '</p>';                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
   if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>';                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
   next();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-}); 
+}); */
 
 function authenticate(email, pass, fn) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
   	if (!module.parent) console.log('authenticating %s:%s', email, pass);       
