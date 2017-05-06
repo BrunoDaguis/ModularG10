@@ -79,7 +79,7 @@ function restrict(req, res, next) {
 
 app.get('/', function (req, res) {
 	postModel.get(function(results){
-		res.render('Index', {data: results});
+		res.render('index', {data: results});
 	});	
 });
 
