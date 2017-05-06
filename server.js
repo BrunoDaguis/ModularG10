@@ -2,8 +2,9 @@ var http = require('http'),
     fs = require('fs'),
     hash = require('./pass').hash;
 
-var cookieParser = require('cookie-parser')
+/*var cookieParser = require('cookie-parser')
 var session = require('express-session')
+*/
 
 var express = require('express');
 var mongoose = require('mongoose');
@@ -19,13 +20,13 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cookieParser());                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+/*app.use(cookieParser());                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true,
   cookie: { secure: true }
-}));   
+}));  */ 
 
 app.set('view engine', 'ejs');
 
