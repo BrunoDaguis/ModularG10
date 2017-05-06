@@ -43,7 +43,11 @@ app.listen(app.get('port'), () => {
 	console.log('listening on 5000')
 });
 
-app.use(express.static('./views'));
+//app.use(express.static('./views'));
+
+
+
+app.use('/', express.static(__dirname + '/views'));
 
 
 function authenticate(email, pass, fn) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
@@ -71,9 +75,7 @@ app.get('/', function (req, res) {
 
 app.get('/user', function (req, res) {
 	userModel.get(function(users){
-		postModel.getByUser(user._id, function(posts){
-			res.render('author', {user: user, posts: posts, session: req.session.user});
-		});	
+		res.render('author', {user: user, posts: posts, session: req.session.user});
 	});			
 });
 
