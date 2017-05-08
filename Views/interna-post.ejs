@@ -16,7 +16,7 @@
 							<div class="info-block">
 								<div class="be-large-post-align">
 									<span><i class="fa fa-thumbs-o-up"></i> <%= data.likes %></span>
-									<span><i class="fa fa-eye"></i> 753</span>
+									<span><i class="fa fa-eye"></i> <%= data.views %></span>
 									<span><i class="fa fa-comment-o"></i> <%= data.comments.length %></span>
 								</div>
 							</div>
@@ -60,12 +60,12 @@
 											<%= post.description %>
 										</span>
 										<div class="author-post">
-											<img src="\img\a5.png" alt="" class="ava-author">
+											<img src="/user/image/<%= post.user._id %>" alt="" class="ava-author">
 											<span>Por <a href="/user/<%= post.user._id %>"><%= post.user.name %></a></span>
 										</div>
 										<div class="info-block">
 											<span><i class="fa fa-thumbs-o-up"></i> <%= post.likes %></span>
-											<span><i class="fa fa-eye"></i> 789</span>
+											<span><i class="fa fa-eye"></i> <%= post.views %></span>
 											<span><i class="fa fa-comment-o"></i> <%= post.comments.length %></span>
 										</div>
 									</div>
@@ -73,83 +73,57 @@
 						    <% }); %>
 						</div>
 						<div class="be-comment-block">
-							<h1 class="comments-title">Comments (3)</h1>
-							<p class="about-comment-block">
-								You must <a href="blog-detail-2.html" class="be-signup-link">SIGN UP</a>
-								 to join the conversation.
-							</p>
-							<div class="be-comment">
-									<div class="be-img-comment">	
-										<a href="blog-detail-2.html">
-											<img src="img\c1.png" alt="" class="be-ava-comment">
-										</a>
-									</div>
-									<div class="be-comment-content">
-										
-											<span class="be-comment-name">
-												<a href="blog-detail-2.html">Ravi Sah</a>
-												</span>
-											<span class="be-comment-time">
-												<i class="fa fa-clock-o"></i>
-												May 27, 2015 at 3:14am
-											</span>
-
-										<p class="be-comment-text">
-											Pellentesque gravida tristique ultrices. 
-											Sed blandit varius mauris, vel volutpat urna hendrerit id. 
-											Curabitur rutrum dolor gravida turpis tristique efficitur.
-										</p>
-									</div>
-									
-								</div>
-							<div class="be-comment">
-								<div class="be-img-comment">	
-										<a href="blog-detail-2.html">
-											<img src="img\c2.png" alt="" class="be-ava-comment">
-										</a>
-									</div>
-									<div class="be-comment-content">
-										
-											<span class="be-comment-name">
-												<a href="blog-detail-2.html">Phoenix, the Creative Studio</a>
-										</span>
-											<span class="be-comment-time">
-												<i class="fa fa-clock-o"></i>
-												May 27, 2015 at 3:14am
-											</span>
-
-										<p class="be-comment-text">
-											Nunc ornare sed dolor sed mattis. In scelerisque dui a arcu mattis, at maximus eros commodo. Cras magna nunc, cursus lobortis luctus at, sollicitudin vel neque. Duis eleifend lorem non ant. Proin ut ornare lectus, vel eleifend est. Fusce hendrerit dui in turpis tristique blandit.
-										</p>
+							<h1 class="comments-title">Comentarios (<%= comments.length %>)</h1>
+							<% if(session == null) { %>
+								<p class="about-comment-block">
+									Você deve <a href="blog-detail-2.html" class="be-signup-link">ENTRAR</a>
+									 para poder comentar.
+								</p>
+							<% } else { %>
+								<form class="form-block" id="formComments" >
+									<div class="row">
+										<div class="col-xs-12">									
+											<div class="form-group">
+												<textarea class="form-input" required="" id="message" placeholder="Sua mensagem"></textarea>
+											</div>
 										</div>
-									
-								</div>
-							<div class="be-comment">
-								<div class="be-img-comment">	
-										<a href="blog-detail-2.html">
-											<img src="img\c3.png" alt="" class="be-ava-comment">
-										</a>
+										<a class="btn color-1 size-2 hover-1 pull-right" id="saveComment" >Enviar</a>
 									</div>
-									<div class="be-comment-content">
-											<span class="be-comment-name">
-												<a href="blog-detail-2.html">Dorian Camp</a>
-										</span>
-											<span class="be-comment-time">
-												<i class="fa fa-clock-o"></i>
-												May 27, 2015 at 3:14am
-											</span>
-										<p class="be-comment-text">
-											Cras magna nunc, cursus lobortis luctus at, sollicitudin vel neque. Duis eleifend lorem non ant
-										</p>
+								</form>
+							<% } %>
+							<div id="divComments">
+								<% comments.forEach(function(comment) { %>
+									<div class="be-comment">
+										<div class="be-img-comment">	
+											<a href="blog-detail-2.html">
+												<img src="/user/image/<%= comment.user._id %>" alt="" class="be-ava-comment">
+											</a>
+										</div>
+										<div class="be-comment-content">
+											
+												<span class="be-comment-name">
+													<a href="blog-detail-2.html"><%= comment.user.name %></a>
+													</span>
+												<span class="be-comment-time">
+													<i class="fa fa-clock-o"></i>
+													<%= comment.dateCreate %>
+												</span>
+
+											<p class="be-comment-text">
+												<%= comment.text %>
+											</p>
+										</div>
 									</div>
-							</div>
+							    <% }); %>
+					    	</div>
+							
 						</div>
 					</div>
 					<div class="col-md-3 col-md-pull-9 left-feild">
 						<div class="be-user-block">
 							<div class="be-user-detail">
 								<a class="be-ava-user" href="/user/<%= data.user._id %>">
-									<img src="\img\ava.png" alt=""> 
+									<img src="/user/image/<%= data.user._id %>" alt=""> 
 								</a>
 								<p class="be-use-name"><%= data.user.name %></p>
 								<span class="be-user-info">
@@ -172,12 +146,12 @@
 												<%= post.description %>
 											</span>
 											<div class="author-post">
-												<img src="\img\ava.png" alt="" class="ava-author">
+												<img src="/user/image/<%= post.user._id %>" alt="" class="ava-author">
 												<span>Por <a href="/user/<%= post.user._id %>"><%= post.user.name %></a></span>
 											</div>
 											<div class="info-block">
 												<span><i class="fa fa-thumbs-o-up"></i> <%= post.likes %></span>
-											<span><i class="fa fa-eye"></i> 789</span>
+											<span><i class="fa fa-eye"></i> <%= post.views %></span>
 											<span><i class="fa fa-comment-o"></i> <%= post.comments.length %></span>
 											</div>
 										</div>
@@ -194,5 +168,69 @@
 		</div>
 
 		<% include partial/footer %>
+
+		<script>
+			
+			$(document).ready(function(e) {   
+			    $('#saveComment').on('click', function () {
+					saveComment();
+				});
+			 });
+
+			function saveComment(){
+		        var obj = {
+		            text: $("#message").val(),
+		            post: '<%= data._id %>',
+		            user: ''
+		        }
+
+		        ajax.send({
+		            url: "/api/comment",
+		            data: JSON.stringify(obj),
+		            method: "POST",
+		            beforeSend: function () {
+
+		            },
+		            success: function (response) {
+		                var html = '<div class="be-comment">' +
+										'<div class="be-img-comment">' +	
+											'<a href="blog-detail-2.html">' +
+												'<img src="/user/image/_id_" alt="" class="be-ava-comment">' +
+											'</a>' +
+										'</div>' +
+										'<div class="be-comment-content">' +
+												'<span class="be-comment-name">' +
+													'<a href="blog-detail-2.html">_username_</a>' +
+													'</span>' +
+												'<span class="be-comment-time">' +
+													'<i class="fa fa-clock-o"></i>' +
+													'_date_' +
+												'</span>' +
+											'<p class="be-comment-text">' +
+												'_text_' +
+											'</p>' +
+										'</div>' +
+									'</div>';
+
+						html = html.replace('_username_', response.user.name);
+						html = html.replace('_text_', response.text);
+						html = html.replace('_date_', response.dateCreate);
+						html = html.replace('_id_', response.user._id);
+
+						$("#divComments").append(html);
+
+						$("#message").val('');
+						$('html, body').animate({ scrollTop: $('#divComments .be-comment:last').offset().top }, 'fast');
+
+		            },
+		            complete: function () {
+
+		            },
+		            error: function (error) {
+		            	alert('Email/Senha Inválidos');
+		            }
+		        });
+			}
+		</script>
 	</body>
 </html>

@@ -6,6 +6,17 @@ var UserSchema   = new mongoose.Schema({
   password: {type: String, required: true},
   description: {type: String },
   avatar: {type: String },
+  avatarExtension: {type: String },
+  dateBirth:  {type: Date},
+  position: {type: String },
+  company: {type: String },
+  webSite: {type: String },
+  facebook: {type: String },
+  twitter:{type: String },
+  google: {type: String },
+  pinterest: {type: String },
+  instagram: {type: String },
+  linkedin: {type: String },
   dateCreate:  {type: Date, default: Date.now}
 });
 
@@ -18,7 +29,18 @@ var user = {
 		model.name = json.name;
 		model.email = json.email;
 		model.password = json.password;
+		model.dateBirth = json.dateBirth;
 		model.description = json.description;
+
+		model.position = json.position;
+		model.company = json.company;
+		model.webSite = json.webSite;
+		model.facebook = json.facebook;
+		model.twitter = json.twitter;
+		model.google = json.google;
+		model.pinterest = json.pinterest;
+		model.instagram = json.instagram;
+		model.linkedin = json.linkedin;
 
 		model.save(function(err) {
 			if (err)
@@ -31,9 +53,20 @@ var user = {
 		user.getById(json._id, function(result){
 
 			result.name = json.name;
-			result.password = json.password;
 			result.description = json.description;
+			result.avatar = json.avatar;
+			result.avatarExtension = json.avatarExtension;
 			
+			result.position = json.position;
+			result.company = json.company;
+			result.webSite = json.webSite;
+			result.facebook = json.facebook;
+			result.twitter = json.twitter;
+			result.google = json.google;
+			result.pinterest = json.pinterest;
+			result.instagram = json.instagram;
+			result.linkedin = json.linkedin;
+
 			result.save(function(err) {
 				if (err)
 					return console.log(err);
@@ -89,6 +122,18 @@ var user = {
 		      return console.log(err);
 
 		    callback(result);
+		});
+	},
+	changePassword: function(json, callback){
+		user.getById(json._id, function(result){
+			result.password = json.newPassword;
+			
+			result.save(function(err) {
+				if (err)
+					return console.log(err);
+
+				callback(result);
+			});	
 		});
 	}
 }

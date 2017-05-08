@@ -236,7 +236,7 @@
 						<i class="fa fa-times close-button"></i>
 						<h5 class="large-popup-title">Log in</h5>
 					</div>
-					<form action="./" class="popup-input-search" id="formLogin">
+					<form action="./" class="popup-input-search" id="formLogin" onsubmit="return login();">
 						<div class="col-md-6">
 							<input class="input-signtype" type="email" id="email" required="" placeholder="Email">
 						</div>
@@ -244,19 +244,10 @@
 							<input class="input-signtype" type="password" id="password" required="" placeholder="Senha">
 						</div>
 						<div class="col-xs-6">
-							<div class="be-checkbox">
-							<label class="check-box">
-								    <input class="checkbox-input" type="checkbox" value=""> <span class="check-box-sign"></span>
-								</label>
-								<span class="large-popup-text">
-									Stay signed in
-								</span>
-							</div>
-							
-							<a href="blog-detail-2.html" class="link-large-popup">Forgot password?</a>
+							<a href="blog-detail-2.html" class="link-large-popup">Esqueceu a senha?</a>
 						</div>
 						<div class="col-xs-6 for-signin">
-							<input type="submit" class="be-popup-sign-button" value="SIGN IN">
+							<input type="submit" class="be-popup-sign-button" value="Entrar">
 						</div>
 					</form>
 				</div>
@@ -274,149 +265,77 @@
 						<i class="fa fa-times close-button"></i>
 						<h5 class="large-popup-title">Register</h5>
 					</div>
-					<form action="./" class="popup-input-search">
-					<div class="col-md-6">
-						<input class="input-signtype" type="text" required="" placeholder="First Name">
-					</div>
-					<div class="col-md-6">
-						<input class="input-signtype" type="text" required="" placeholder="Last Name">
-					</div>
-					<div class="col-md-6">
-						<div class="be-custom-select-block">
-						<select class="be-custom-select">
-							<option value="" disabled="" selected="">
-								Country
+					<form action="./" id="formRegister" class="popup-input-search">
+						<div class="col-md-12">
+							<div class="col-md-6">
+								<input class="input-signtype" type="text" id="nameRegister" required="" placeholder="name">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="col-md-6">
+								<input class="input-signtype" type="text" id="emailRegister" required="" placeholder="Email">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="col-md-6">
+								<input class="input-signtype" type="password" id="passwordRegister" required="" placeholder="Senha">
+							</div>
+						</div>
+						<div class="col-md-12 be-date-block">
+							<span class="large-popup-text">
+								Data de nascimento
+							</span>
+							<div class="be-custom-select-block">
+								<select id="dayBirth" class="be-custom-select">
+									<option value="" disabled="" selected="">
+										Dia
+
+									<% for(var i=1; i<=31;i++){ %>
+										<option value="<%= i %>"><%= i %>
+									<% } %>
+								</select>
+							</div>
+
+							<div class="be-custom-select-block mounth">
+								<select id="monthBirth" class="be-custom-select">
+									<option value="" disabled="" selected="">
+										Mês
+									
+									<option value="1">Janeiro	
+									<option value="2">Fevereiro
+									<option value="3">Março
+									<option value="4">Abril	
+									<option value="5">Maio
+									<option value="6">Hunho	
+									<option value="7">Julho	
+									<option value="8">Agosto	
+									<option value="9">Setembro
+									<option value="10">Outubro	
+									<option value="11">Novembro	
+									<option value="12">Dezembro
+								</select>
+							</div>
 							
-							<option value="">USA
-							<option value="">Canada
-							<option value="">England
-						</select>
+							<div class="be-custom-select-block">
+								<select id="yearBirth" class="be-custom-select">
+									<option value="" disabled="" selected="">
+										Ano
+									<% for(var i=2017; i>1900;i--){ %>
+										<option value="<%= i %>"><%= i %>
+									<% } %>
+								</select>
+							</div>
 						</div>
-					</div>
-					<div class="col-md-6">
-						<input class="input-signtype" type="text" required="" placeholder="Email">
-					</div>
-					<div class="col-md-6">
-						<input class="input-signtype" type="text" required="" placeholder="Password">
-					</div>
-					<div class="col-md-6">
-						<input class="input-signtype" type="text" required="" placeholder="Repeat Password">
-					</div>
-					<div class="col-md-12 be-date-block">
-						<span class="large-popup-text">
-							Date of birth
-						</span>
-						<div class="be-custom-select-block mounth">
-							<select class="be-custom-select">
-								<option value="" disabled="" selected="">
-									Mounth
-								
-								<option value="">January	
-								<option value="">February	
-								<option value="">March	
-								<option value="">April	
-								<option value="">May	
-								<option value="">June	
-								<option value="">July	
-								<option value="">August	
-								<option value="">September	
-								<option value="">October	
-								<option value="">November	
-								<option value="">December
-							</select>
+						<div class="col-md-6 for-signin">
+							<input type="submit" class="be-popup-sign-button" value="ENTRAR">
 						</div>
-						<div class="be-custom-select-block">
-							<select class="be-custom-select">
-								<option value="" disabled="" selected="">
-									Day
-								
-								<option value="">1
-								<option value="">2
-								<option value="">3
-								<option value="">4
-								<option value="">5
-								<option value="">6
-								<option value="">7
-								<option value="">8
-								<option value="">9
-								<option value="">10
-								<option value="">11
-								<option value="">12
-								<option value="">13
-								<option value="">14
-								<option value="">15
-								<option value="">16
-								<option value="">17
-								<option value="">18
-								<option value="">19
-								<option value="">20
-								<option value="">21
-								<option value="">22
-								<option value="">23
-								<option value="">24
-								<option value="">25
-								<option value="">26
-								<option value="">27
-								<option value="">28
-								<option value="">29
-								<option value="">30
-							</select>
-						</div>
-						<div class="be-custom-select-block">
-							<select class="be-custom-select">
-								<option value="" disabled="" selected="">
-									Year
-								
-								<option value="">1996
-								<option value="">1997
-								<option value="">1998
-							</select>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="be-checkbox">
-							<label class="check-box">
-							    <input class="checkbox-input" type="checkbox" required="" value=""> <span class="check-box-sign"></span>
-							</label>
-							<span class="large-popup-text">
-								I have read and agree to the <a class="be-popup-terms" href="blog-detail-2.html">Terms of Use</a> and <a class="be-popup-terms" href="blog-detail-2.html">Privacy Policy</a>.
-							</span>
-						</div>
-						<div class="be-checkbox">
-							<label class="check-box">
-							    <input class="checkbox-input" type="checkbox" value=""> <span class="check-box-sign"></span>
-							</label>
-							<span class="large-popup-text">
-								Send me notifications
-							</span>
-						</div>
-					</div>
-					<div class="col-md-6 for-signin">
-						<input type="submit" class="be-popup-sign-button" value="SIGN IN">
-					</div>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="theme-config">
-    <div class="main-color">
-        <div class="title">Main Color:</div>
-        <div class="colours-wrapper">
-            <div class="entry color1 m-color active" data-colour="style/stylesheet.css"></div>   
-            <div class="entry color3 m-color" data-colour="style/style-green.css"></div>
-            <div class="entry color6 m-color" data-colour="style/style-orange.css"></div>
-            <div class="entry color8 m-color" data-colour="style/style-red.css"></div>  
-            <div class="title">Second Color:</div>  
-            <div class="entry s-color  active color10" data-colour="style/stylesheet.css"></div>
-            <div class="entry s-color color11" data-colour="style/style-oranges.css"></div> 
-            <div class="entry s-color color12" data-colour="style/style-greens.css"></div>
-            <div class="entry s-color color13" data-colour="style/style-reds.css"></div>
-        </div>
-    </div>
-   <div class="open"><img src="\\img\icon-134.png" alt=""></div>
-</div>
+
 <!-- SCRIPTS	 -->
 <script src="\script\jquery-2.1.4.min.js"></script>
 <script src="\script\jquery-ui.min.js"></script>
@@ -424,6 +343,7 @@
 <script src="\script\idangerous.swiper.min.js"></script>
 <script src="\script\jquery.mixitup.js"></script>
 <script src="\script\jquery.viewportchecker.min.js"></script>
+<script src="\script\magnific.js"></script>
 <script src="\script\filters.js"></script>
 <script src="\script\global.js"></script>
 <script src="\script\ajax.js"></script>
@@ -434,35 +354,68 @@
 
 			login();
 		});
-	})
-	function login(){
-		$("#formLogin").submit(function(e){
+
+		$("#formRegister").submit(function(e){
 			e.preventDefault();
 
-            var obj = {
-                email: $("#email").val(),
-                password: $("#password").val()
-            }
-
-            ajax.send({
-                url: "/api/user/login",
-                data: JSON.stringify(obj),
-                method: "POST",
-                beforeSend: function () {
-
-                },
-                success: function (response) {
-                    localStorage.setItem('user', response._id)
-
-                    location.href = '/';
-                },
-                complete: function () {
-
-                },
-                error: function (error) {
-                	alert('Email/Senha Inválidos');
-                }
-            });
+			register();
 		});
+	})
+	function login(){
+        var obj = {
+            email: $("#email").val(),
+            password: $("#password").val()
+        }
+
+        ajax.send({
+            url: "/api/user/login",
+            data: JSON.stringify(obj),
+            method: "POST",
+            beforeSend: function () {
+
+            },
+            success: function (response) {
+                localStorage.setItem('user', response._id)
+
+                location.href = '/';
+            },
+            complete: function () {
+
+            },
+            error: function (error) {
+            	alert('Email/Senha Inválidos');
+            }
+        });
+
+        return false;
+	}
+
+	function register(){
+        var obj = {
+        	name: $("#nameRegister").val(),
+            email: $("#emailRegister").val(),
+            password: $("#passwordRegister").val(),
+            dateBirth: $("#yearBirth option:selected").val() + '-' + $("#monthBirth option:selected").val() + '-' + $("#dayBirth option:selected").val()
+        }
+
+        ajax.send({
+            url: "/api/user",
+            data: JSON.stringify(obj),
+            method: "POST",
+            beforeSend: function () {
+
+            },
+            success: function (response) {
+                localStorage.setItem('user', response._id)
+
+                location.href = '/';
+            },
+            complete: function () {
+
+            },
+            error: function (error) {
+            	alert('Erro no cadastro');
+            }
+        });
 	}
 </script>

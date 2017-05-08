@@ -7,18 +7,22 @@ var session = require('express-session');
 
 var express = require('express');
 var mongoose = require('mongoose');
+
 var userModel = require('./model/user.js');
 var postModel = require('./model/post.js');
 var commentModel = require('./model/comment.js');
 var imagesModel = require('./model/image.js');
 var likeModel = require('./model/like.js');
+var viewPostModel = require('./model/viewPost.js');
+
 var bodyParser= require('body-parser');
 
 var app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+//app.use(express.bodyParser({limit: '50mb'}));
+
 app.use(session({
   secret: '1q2w3e4r5t6y7u8i9o0p',
   resave: false,
@@ -73,25 +77,90 @@ app.get('/', function (req, res) {
 	});	
 });
 
-app.get('/user', function (req, res) {
-	userModel.get(function(users){
-		res.render('author', {user: user, posts: posts, session: req.session.user});
-	});			
+app.get('/logout', function (req, res) {
+	req.session.destroy(function(err) {
+		res.redirect('/');
+	});
+});
+
+app.get('/post/new', function (req, res) {
+	res.render('post-edit', {session: req.session.user});
 });
 
 app.get('/post/:url', function (req, res) {
 	postModel.getByUrl(req.params.url, function(post){
-		postModel.getByTags(post.tags, function(relateds){
-			postModel.getByUser(post.user._id, function(postsByUser){
-				res.render('interna-post', {data: post, relateds: relateds, postsByUser: postsByUser, session: req.session.user});
-			});			
-		});			
+
+		commentModel.getByPost(post._id, function(comments){
+
+			postModel.getByTags(post.tags, function(relateds){
+
+				postModel.getByUser(post.user._id, function(postsByUser){
+
+					viewPostModel.create({ post: post._id, user: req.session.user == null ? null : req.session.user._id }, function(view){
+
+						postModel.addView(post._id, function(){
+							post.views += 1;
+							res.render('interna-post', {data: post, relateds: relateds, postsByUser: postsByUser, comments: comments, session: req.session.user});
+						});										
+
+					});	
+
+				});	
+
+			});	
+		});
+		
 	});
+
 });
 
 app.get('/post/tags/:tag', function (req, res) {
 	postModel.getByTags(req.params.tag, function(posts){
 		res.render('blog-listagem-tags', {data: posts, tag: req.params.tag, session: req.session.user});
+	});			
+});
+
+app.get('/user/myprofile', function (req, res) {
+	if(!req.session.user){
+		return res.status(401).send();
+	}
+
+	userModel.getById(req.session.user._id, function(user){
+		postModel.getByUser(user._id, function(posts){
+			res.render('author', {user: user, posts: posts, session: req.session.user});
+		});	
+	});		
+});
+
+app.get('/user/edit/myprofile', function (req, res) {
+	if(!req.session.user){
+		return res.status(401).send();
+	}
+
+	userModel.getById(req.session.user._id, function(user){
+		res.render('author-edit', {user: user, session: req.session.user});
+	});		
+});
+
+app.get('/user', function (req, res) {
+	userModel.get(function(users){
+		res.render('people', {users: users, session: req.session.user});
+	});			
+});
+
+app.get('/user/image/:user', function (req, res) {
+	userModel.getById(req.params.user, function(user){
+		if(user.avatar && user.avatarExtension){
+			var img = new Buffer(user.avatar, 'base64');
+	    	res.writeHead(200, {
+		     'Content-Type': user.avatarExtension,
+		     'Content-Length': img.length
+		   	});
+			res.end(img); 
+		}   	
+
+		return res.status(404).send();
+		
 	});			
 });
 
@@ -108,17 +177,25 @@ app.get('/user/:user', function (req, res) {
 /* SERVIÇOS */
 
 app.get('/api/user', function (req, res) {
-	userModel.get(function(results){
-		res.json(results);
-	});
-});
-
-app.get('/api/user/session', function (req, res) {
 	if(!req.session.user){
 		return res.status(401).send();
 	}
 
-	return res.status(200).send();
+	userModel.change(function(results){
+		res.json(results);
+	});
+});
+
+app.post('/api/user/changePassword', function (req, res) {
+	if(!req.session.user){
+		return res.status(401).send();
+	}
+
+	req.body._id = req.session.user._id;
+
+	userModel.changePassword(req.body, function(user){
+		res.json({ success: true });
+	});		
 });
 
 app.get('/api/user/:id', function (req, res) {
@@ -128,13 +205,22 @@ app.get('/api/user/:id', function (req, res) {
 });
 
 app.post('/api/user', (req, res) => {
-	userModel.save(req.body, function(result){
-		res.json({_id: result._id});
+	userModel.save(req.body, function(user){
+
+		req.session.regenerate(function(){                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+			req.session.user = {_id: user._id, name: user.name};                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+			res.json({_id: user._id});                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+		}); 		
 	});
 });
 
 app.put('/api/user', (req, res) => {
-   userModel.save(req.body, function(result){
+	if(!req.session.user){
+		return res.status(401).send();
+	}
+	req.body._id = req.session.user._id;
+
+   	userModel.save(req.body, function(result){
 		res.json({ success: true });
 	});
 });
@@ -187,8 +273,14 @@ app.get('/api/post/tags/:tag', function (req, res) {
 });
 
 app.post('/api/post', (req, res) => {
+	if(!req.session.user){
+		return res.status(401).send();
+	}
+
+	req.body.user = req.session.user._id;	
+
 	postModel.save(req.body, function(result){
-		res.json({_id: result._id});
+		res.json(result);
 	});
 });
 
@@ -219,9 +311,14 @@ app.get('/api/comment/:id', function (req, res) {
 });
 
 app.post('/api/comment', (req, res) => {
+	if(!req.session.user){
+		return res.status(401).send();
+	}
+	req.body.user = req.session.user._id;
+
 	commentModel.save(req.body, function(comment){
 		postModel.addComment(req.body.post, comment._id, function(result){
-			res.json({_id: comment._id});
+			res.json({ text: comment.text, dateCreate: comment.dateCreate, user: { _id: req.session.user._id, name: req.session.user.name }});
 		});
 	});
 });
@@ -266,19 +363,4 @@ app.delete('/api/post/image/:id', (req, res) => {
 	});
 });
 
-/* LIKES */
-app.post('/api/post/like', (req, res) => {
-	likeModel.save(req.body, function(like){
-		postModel.addLike(req.body.post, function(){
-			res.json({_id: like._id});
-		});
-	});
-});
 
-app.delete('/api/post/like/:id', (req, res) => {
-	likeModel.remove(req.params.id, function(result){
-		postModel.removeLike(req.body.post, function(){
-			res.json({ success: true });
-		});
-	});
-});

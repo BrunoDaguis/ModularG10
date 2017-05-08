@@ -76,6 +76,15 @@ var comment = {
 		    callback(result);
 
 		});
-	}
+	},
+	getByPost: function(postId, callback){
+		CommentModel.find({post: postId}).populate('user').exec(function(err, results) {
+		    if (err)
+		      return console.log(err);
+
+		    callback(results);
+
+		});
+	},
 }
 module.exports = comment;

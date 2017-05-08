@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<% include partial/css %>
+	</head>
+	<body data-spy="scroll" data-target="blog-detail-2.htmlscrollspy">
+
+		<!-- THE HEADER -->
+		<% include partial/header %>
+
+
+		<!-- MAIN CONTENT -->
+		<div id="content-block">
+			<div class="editor-menu">
+				<div class="container">
+					<div class="buttons-navbar">
+						<button type="button" onclick="save();" class="btn btn-primary">Save</button>
+					</div>
+				</div>
+			</div>
+			<div class="container be-detail-container">
+				<div class="row">
+					<div class="col-xs-12 col-md-3 left-feild">
+						<div class="be-vidget back-block">
+							<a class="btn full color-1 size-1 hover-1" href="author.html"><i class="fa fa-chevron-left"></i>back to profile</a>
+						</div>
+						<div class="be-vidget hidden-xs hidden-sm" id="scrollspy">
+							<h3 class="letf-menu-article">
+								Choose Category
+							</h3>
+							<div class="creative_filds_block">
+								<ul class="ul nav">
+									<li class="edit-ln"><a href="#basic-information">Basic Information</a></li>
+									<li class="edit-ln"><a href="#edit-password">Edit Password</a></li>
+									<li class="edit-ln"><a href="#on-the-web">On The Web</a></li>
+									<li class="edit-ln"><a href="#about-me">About Me</a></li>
+									<li class="edit-ln"><a href="#web-references">Web References</a></li>
+								</ul>
+							</div>
+							<a class="btn full color-1 size-1 hover-1 add_section"><i class="fa fa-plus"></i>add sections</a>	
+						</div>
+
+					</div>
+					<div class="col-xs-12 col-md-9 _editor-content_">
+						<div class="sec" data-sec="basic-information">
+							<div class="be-large-post">
+								<div class="info-block style-2">
+									<div class="be-large-post-align "><h3 class="info-block-label">Basic Information</h3></div>
+								</div>
+								<div class="be-large-post-align">
+									<div class="be-change-ava">
+										<a class="be-ava-user style-2" href="javascript:void(0);">
+											<img id="imagePost" src="\img\ava_10.jpg" alt=""> 
+										</a>
+										<a class="btn color-4 size-2 hover-7" onclick="document.getElementById('fileImage').click(); ">Selecionar Imagem</a>
+									</div>
+								</div>
+								<div class="be-large-post-align">
+									<div class="row">
+										<div class="input-col col-xs-12 col-sm-12">
+											<div class="form-group fg_icon focus-2">
+												<div class="form-label">Titulo</div>
+												<input class="form-input" type="text" id="title" placeholder="Titulo">
+											</div>							
+										</div>
+										<div class="input-col col-xs-12 col-sm-12">
+											<div class="form-group fg_icon focus-2">
+												<div class="form-label">Descrição</div>
+												<textarea class="form-input" id="description"></textarea>
+												
+											</div>							
+										</div>
+										<div class="input-col col-xs-12 col-sm-6">
+											<div class="form-group fg_icon focus-2">
+												<div class="form-label">Tags</div>
+												<input class="form-input" type="text" id="tags" placeholder="Tags">
+											</div>							
+										</div>
+										<div class="input-col col-xs-12 col-sm-12">
+											<div class="form-group fg_icon focus-2">
+												<div id="editor">
+
+                                				</div>	
+											</div>							
+										</div>
+															
+									</div>
+								</div>
+							</div>
+						</div>
+																		
+					</div>				
+				</div>
+			</div>
+		</div>
+
+		<input type="file" id="fileImage" onchange="OnChangeImage(this);" style="display: none;">
+	
+		<% include partial/footer %>
+		<script src="\script\ckeditor\ckeditor.js"></script>
+		<script src="\script\ckeditor\sample.js"></script>
+		<script src="\script\tags.min.js"></script>
+		<script>
+			var image;
+			$(function(){
+				initSample('text');
+
+				$("#tags").tagsInput({
+	                width:'100%'
+	            });
+			})
+
+			function save(){
+				var tags = new Array();
+
+                if ($("#tags").val().length !== 0) {
+                    for (var i in $("#tags").val().split(',')) {
+                        var tag = $("#tags").val().split(',')[i];
+
+                        tags.push(tag);
+                    }
+                }
+
+				var obj = {
+					title: $("#title").val(),
+					description: $("#description").val(),
+					content: CKEDITOR.instances.editor.getData(),
+					image: image,
+					imageExtension: imageExtension,
+					tags: tags,
+					user: ''
+				}
+
+				ajax.send({
+                    url: "/api/post",
+                    data: JSON.stringify(obj),
+                    method: "POST",
+                    beforeSend: function() {
+
+                    },
+                    success: function(response) {
+                        location.href = '/post/' + response.url;
+                    },
+                    complete: function() {
+                    },
+                    error: function(error) {
+
+                    }
+                });
+			}
+
+			function ReadImage(inputElement) {
+	            var deferred = $.Deferred();
+
+	            var files = inputElement.get(0).files;
+	            if (files && files[0]) {
+	                var fr = new FileReader();
+	                fr.onload = function(e) {
+	                    deferred.resolve({ base: e.target.result, base64: e.target.result.substring(e.target.result.indexOf(',') + 1), type: files[0].type, name: files[0].name });
+	                };
+	                fr.readAsDataURL(files[0]);
+	            } else {
+	                deferred.resolve(undefined);
+	            }
+
+	            return deferred.promise();
+	        }
+
+			function OnChangeImage(element) {
+	            var inputElement = $(element);
+
+	            ReadImage(inputElement).done(function(file) {
+	                image = file.base64;
+	                imageExtension = file.type;
+
+	                $("#imagePost").attr('src', file.base);
+	            });
+	        }
+		</script>
+	</body>
+</html>

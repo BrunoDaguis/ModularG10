@@ -731,5 +731,8 @@ $('.s-color').on('click', function() {
 		$(this).find('ul').slideToggle();
 	});
 
+	
+
+
 
 });

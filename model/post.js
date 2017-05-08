@@ -7,12 +7,14 @@ var PostSchema   = Schema({
   description: {type: String, required: true},
   url: {type: String, required: true},
   image: {type: String },
+  imageExtension: {type: String },
   content: {type: String, required: true },
   user: {type: Schema.ObjectId, required: true, ref: "user"},
   comments: [{type: Schema.ObjectId, ref: "comment"}],
   tags: [{type: String, required: false }],
   dateCreate:  {type: Date, default: Date.now},
-  likes: {type: Number, default: 0}
+  likes: {type: Number, default: 0},
+  views: {type: Number, default: 0}
 });
 
 var PostModel = mongoose.model('post', PostSchema, 'post');
@@ -25,6 +27,7 @@ var post = {
 		model.description = json.description;
 		model.content = json.content;
 		model.image = json.image;
+		model.imageExtension = json.imageExtension;
 		model.tags = json.tags;
 		model.url = parseToUrl(json.title);
 		model.user = json.user;
@@ -44,6 +47,7 @@ var post = {
 			result.content = json.content;
 			result.tags = json.tags;
 			result.image = json.image;
+			result.imageExtension = json.imageExtension;
 			result.url = parseToUrl(json.title);
 			
 			result.save(function(err) {
@@ -136,8 +140,8 @@ var post = {
 		});
 	},
 	getByUrl: function(url, callback){
-		PostModel.findOne({url: url}).populate('user').populate('images').populate('comments').exec(function(err, result) {
-		    if (err)
+		PostModel.findOne({url: url}).populate('user').populate('images').populate('comments').populate('comments.user').exec(function(err, result) {
+	    if (err)
 		      return console.log(err);
 
 		    callback(result);
@@ -157,6 +161,19 @@ var post = {
 		      return console.log(err);
 
 		    callback(result);
+		});
+	},
+	addView: function(postId, callback){
+		post.getById(postId, function(result){
+			
+			result.views = result.views + 1;
+			
+			result.save(function(err) {
+				if (err)
+					return console.log(err);
+
+				callback(result);
+			});	
 		});
 	}
 }

@@ -1,0 +1,321 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<% include partial/css %>
+	</head>
+	<body data-spy="scroll" data-target="blog-detail-2.htmlscrollspy">
+
+		<!-- THE HEADER -->
+		<% include partial/header %>
+
+
+		<!-- MAIN CONTENT -->
+		<div id="content-block">
+			<div class="editor-menu">
+				<div class="container">
+					<div class="buttons-navbar">
+						<button type="button" onclick="save();" class="btn btn-primary">Save</button>
+					</div>
+				</div>
+			</div>
+			<div class="container be-detail-container">
+				<div class="row">
+					<div class="col-xs-12 col-md-3 left-feild">
+						<div class="be-vidget back-block">
+							<a class="btn full color-1 size-1 hover-1" href="/user/myprofile"><i class="fa fa-chevron-left"></i>Ver meu perfil</a>
+						</div>
+						<div class="be-vidget hidden-xs hidden-sm" id="scrollspy">
+							<h3 class="letf-menu-article">
+								Choose Category
+							</h3>
+							<div class="creative_filds_block">
+								<ul class="ul nav">
+									<li class="edit-ln"><a href="#basic-information">Informações Basicas</a></li>
+									<li class="edit-ln"><a href="#edit-password">Alterar Senha</a></li>
+									<li class="edit-ln"><a href="#on-the-web">Redes Sociais</a></li>
+									<li class="edit-ln"><a href="#about-me">Sobre</a></li>
+								</ul>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-xs-12 col-md-9 _editor-content_">
+						<div class="sec" data-sec="basic-information">
+							<div class="be-large-post">
+								<div class="info-block style-2">
+									<div class="be-large-post-align "><h3 class="info-block-label">Basic Information</h3></div>
+								</div>
+								<div class="be-large-post-align">
+									<div class="be-change-ava">
+										<a class="be-ava-user style-2" href="javascript:void(0);">
+											<img id="imageAvatar" src="/user/image/<%= session._id %>" alt=""> 
+										</a>
+										<a class="btn color-4 size-2 hover-7" onclick="document.getElementById('fileImage').click(); ">Trocar Imagem</a>
+									</div>
+								</div>
+								<div class="be-large-post-align">
+									<div class="row">
+										<div class="input-col col-xs-12 col-sm-6">
+											<div class="form-group fg_icon focus-2">
+												<div class="form-label">Nome</div>
+												<input class="form-input" type="text" id="name" value="<%= user.name %>">
+											</div>							
+										</div>
+										<div class="input-col col-xs-12">
+											<div class="form-group focus-2">
+												<div class="form-label">Profissão</div>									
+												<input class="form-input" type="text" id="position" value="<%= user.position %>">
+											</div>								
+										</div>
+										<div class="input-col col-xs-12">
+											<div class="form-group focus-2">
+												<div class="form-label">Empresa em que trabalha</div>									
+												<input class="form-input" type="text" id="company" placeholder="" value="<%= user.company %>">
+											</div>								
+										</div>
+										<div class="input-col col-xs-12">
+											<div class="form-group focus-2">
+												<div class="form-label">Website URL</div>									
+												<input class="form-input" type="text" id="webSite" value="<%= user.webSite %>">
+											</div>								
+										</div>								
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="sec" data-sec="edit-password">
+							<div class="be-large-post">
+								<div class="info-block style-2">
+									<div class="be-large-post-align"><h3 class="info-block-label">Password</h3></div>
+								</div>
+								<div class="be-large-post-align">
+									<form id="changePassword" onsubmit="return changePassword()">
+										<div class="row">
+											<div class="input-col col-xs-12 col-sm-4">
+												<div class="form-group focus-2">
+													<div class="form-label">Senha atual</div>									
+													<input class="form-input" type="password" id="password" placeholder="">
+												</div>								
+											</div>
+											<div class="input-col col-xs-12 col-sm-4">
+												<div class="form-group focus-2">
+													<div class="form-label">Nova Senha</div>									
+													<input class="form-input" type="password" id="newPassword" placeholder="">
+												</div>								
+											</div>
+											<div class="input-col col-xs-12 col-sm-4">
+												<div class="form-group focus-2">
+													<div class="form-label">Repetir Senha nova</div>									
+													<input class="form-input" type="password" id="repeatNewPassword" placeholder="">
+												</div>								
+											</div>
+											<div class="col-xs-12">
+												<a class="btn color-1 size-2 hover-1 btn-right" onclick="changePassword();">Alterar senha</a>
+											</div>																
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="sec" data-sec="on-the-web">
+							<div class="be-large-post m-social">
+								<div class="info-block style-2">
+									<div class="be-large-post-align"><h3 class="info-block-label">Redes Sociais</h3></div>
+								</div>
+								<div class="be-large-post-align">
+									<div class="social-input form-group focus-2">
+										<div class="s_icon">
+											<div class="social-bars"><i class="fa fa-bars"></i></div>
+											<a class="social-btn color-1" href="blog-detail-2.html"><i class="fa fa-facebook"></i></a>
+										</div>
+										<div class="s_input">
+											<input class="form-input" type="text" id="facebook" value="<%= user.facebook %>">
+										</div>
+									</div>
+									<div class="social-input form-group focus-2">
+										<div class="s_icon">
+											<div class="social-bars"><i class="fa fa-bars"></i></div>
+											<a class="social-btn color-2" href="blog-detail-2.html"><i class="fa fa-twitter"></i></a>
+										</div>
+										<div class="s_input">
+											<input class="form-input" type="text" id="twitter" value="<%= user.twitter %>">
+										</div>
+									</div>
+									<div class="social-input form-group focus-2">
+										<div class="s_icon">
+											<div class="social-bars"><i class="fa fa-bars"></i></div>
+											<a class="social-btn color-3" href="blog-detail-2.html"><i class="fa fa-google-plus"></i></a>
+										</div>
+										<div class="s_input">
+											<input class="form-input" type="text" id="google" value="<%= user.google %>">
+										</div>
+									</div>
+									<div class="social-input form-group focus-2">
+										<div class="s_icon">
+											<div class="social-bars"><i class="fa fa-bars"></i></div>
+											<a class="social-btn color-4" href="blog-detail-2.html"><i class="fa fa-pinterest-p"></i></a>
+										</div>
+										<div class="s_input">
+											<input class="form-input" type="text" id="pinterest" value="<%= user.pinterest %>">
+										</div>
+									</div>
+									<div class="social-input form-group focus-2">
+										<div class="s_icon">
+											<div class="social-bars"><i class="fa fa-bars"></i></div>
+											<a class="social-btn color-5" href="blog-detail-2.html"><i class="fa fa-instagram"></i></a>
+										</div>
+										<div class="s_input">
+											<input class="form-input" type="text" id="instagram" value="<%= user.instagram %>">
+										</div>
+									</div>	
+									<div class="social-input form-group focus-2">
+										<div class="s_icon">
+											<div class="social-bars"><i class="fa fa-bars"></i></div>
+											<a class="social-btn color-5" href="blog-detail-2.html"><i class="fa fa-linkedin"></i></a>
+										</div>
+										<div class="s_input">
+											<input class="form-input" type="text" id="linkedin" value="<%= user.linkedin %>">
+										</div>
+									</div>																													
+								</div>
+							</div>
+						</div>
+
+						<div class="sec" data-sec="about-me">
+							<div class="be-large-post">
+								<div class="info-block style-2">
+									<div class="be-large-post-align"><h3 class="info-block-label">Sobre</h3></div>
+								</div>
+								<div class="be-large-post-align">
+									<div class="row">
+										<div class="input-col col-xs-12">
+											<div class="form-group focus-2">
+												<div class="form-label">Descrição</div>
+												<textarea class="form-input" required="" id="description" placeholder="Algumas coisas sobre mim">
+													<%= user.description %>
+												</textarea>
+											</div>
+										</div>
+									</div>
+								</div>						
+							</div>
+						</div>
+
+					</div>				
+				</div>
+			</div>
+		</div>
+
+		<input type="file" id="fileImage" onchange="OnChangeImage(this);" tyle="display: none;">
+		
+
+		<% include partial/footer %>	
+		<script type="text/javascript">
+			var avatar = '<%= user.avatar %>';
+			var avatarExtension = '<%= user.avatarExtension %>';
+
+			function save(){
+				var obj = {
+					_id: "",
+					name: $("#name").val(),
+					position: $("#position").val(),
+					company: $("#company").val(),
+					webSite: $("#webSite").val(),
+					facebook: $("#facebook").val(),
+					twitter: $("#twitter").val(),
+					google: $("#google").val(),
+					pinterest: $("#pinterest").val(),
+					instagram: $("#instagram").val(),
+					description: $("#description").val(),
+					linkedin: $("#linkedin").val(),
+					avatar: avatar,
+					avatarExtension: avatarExtension
+				}
+
+				ajax.send({
+		            url: "/api/user",
+		            data: JSON.stringify(obj),
+		            method: "PUT",
+		            beforeSend: function () {
+
+		            },
+		            success: function (response) {
+		                
+		                location.href = '/user/myprofile';
+		            },
+		            complete: function () {
+
+		            },
+		            error: function (error) {
+		            	alert('Erro no cadastro');
+		            }
+		        });
+			}
+
+			function changePassword() {
+				var password = $("#password").val();
+				var newPassword = $("#newPassword").val();
+				var repeatNewPassword = $("#repeatNewPassword").val();
+
+				if(newPassword != repeatNewPassword){
+					alert("Senhas diferentes");
+					return;
+				}
+
+				var obj = {
+					_id: "",
+					password: password,
+					newPassword: newPassword
+				}
+
+				ajax.send({
+		            url: "/api/user/changePassword",
+		            data: JSON.stringify(obj),
+		            method: "POST",
+		            beforeSend: function () {
+
+		            },
+		            success: function (response) {
+		                alert("Senha alterada");
+		            },
+		            complete: function () {
+
+		            },
+		            error: function (error) {
+		            	alert('Erro no cadastro');
+		            }
+		        });
+
+		        return false;
+			}
+
+			function ReadImage(inputElement) {
+	            var deferred = $.Deferred();
+
+	            var files = inputElement.get(0).files;
+	            if (files && files[0]) {
+	                var fr = new FileReader();
+	                fr.onload = function(e) {
+	                    deferred.resolve({ base: e.target.result, base64: e.target.result.substring(e.target.result.indexOf(',') + 1), type: files[0].type, name: files[0].name });
+	                };
+	                fr.readAsDataURL(files[0]);
+	            } else {
+	                deferred.resolve(undefined);
+	            }
+
+	            return deferred.promise();
+	        }
+
+			function OnChangeImage(element) {
+	            var inputElement = $(element);
+
+	            ReadImage(inputElement).done(function(file) {
+	                avatar = file.base64;
+	                avatarExtension = file.type;
+
+	                $("#imageAvatar").attr('src', file.base);
+	            });
+	        }
+		</script>
+	</body>
+</html>

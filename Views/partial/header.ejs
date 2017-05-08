@@ -30,7 +30,7 @@
 						<li><a href="search.html">Descobrir</a>
 							<ul>
 								<li><a href="search.html">Explore</a></li>
-								<li><a href="people.html">People</a></li>
+								<li><a href="/user">People</a></li>
 								<li><a href="gallery.html">Galleries</a></li>
 							</ul>
 						</li>
@@ -54,11 +54,11 @@
 		<div class="container-fluid custom-container">
 			<div class="row no_row row-header">
 				<div class="brand-be">
-					<a href="index.html">
-						<img class=" be_logo logo-c active" src="img\logo.png" alt="logo">
-						<img class="logo-c be_logo" src="img\logo-green.png" alt="logo">
-						<img class="logo-c be_logo" src="img\logo-orang.png" alt="logo">
-						<img class="logo-c be_logo" src="img\logo-red.png" alt="logo">
+					<a href="\">
+						<img class=" be_logo logo-c active" src="\img\logo.png" alt="logo">
+						<img class="logo-c be_logo" src="\img\logo-green.png" alt="logo">
+						<img class="logo-c be_logo" src="\img\logo-orang.png" alt="logo">
+						<img class="logo-c be_logo" src="\img\logo-red.png" alt="logo">
 					</a>
 				</div>
 				<div class="login-header-block">
@@ -259,14 +259,14 @@
 							</div>							
 						</div>
 						<div class="be-drop-down login-user-down">
-							<img class="login-user" src="\img\login.jpg" alt="">
+							<img class="login-user" style="width: 60px;height:45px;" src="/user/image/<%= session._id %>" alt="">
 							<span class="be-dropdown-content">Oi, <span><%= session.name %></span></span>
 							<div class="drop-down-list a-list">
-								<a href="/user/<%= session._id %>">Meu Perfil</a>
+								<a href="/user/myprofile %>">Meu Perfil</a>
 								<a href="statictics.html">Statistics </a>
 								<a href="about-us.html">Work Experience</a>
-								<a href="author-edit.html">Account Settings</a>
-								<a href="login.html">Logout</a>
+								<a href="/user/edit/myprofile">Minha conta</a>
+								<a href="/logout">Sair</a>
 							</div>
 						</div>																		
 					</div>	

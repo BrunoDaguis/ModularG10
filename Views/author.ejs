@@ -16,7 +16,7 @@
 						<div class="be-user-block style-3">
 							<div class="be-user-detail">
 								<a class="be-ava-user style-2" href="page1.html">
-									<img src="\img\ava_10.jpg" alt=""> 
+									<img src="/user/image/<%= session._id %>" alt=""> 
 								</a>
 								<a class="be-ava-left btn color-1 size-2 hover-1"><i class="fa fa-plus"></i>Follow</a>
 								<div class="be-ava-right btn btn-message color-4 size-2 hover-7">
@@ -38,13 +38,25 @@
 								</div>
 								<p class="be-use-name"><%= user.name %></p>
 								
-								<div class="be-user-social">							
-									<a class="social-btn color-1" href="page1.html"><i class="fa fa-facebook"></i></a>
-									<a class="social-btn color-2" href="page1.html"><i class="fa fa-twitter"></i></a>
-									<a class="social-btn color-3" href="page1.html"><i class="fa fa-google-plus"></i></a>
-									<a class="social-btn color-4" href="page1.html"><i class="fa fa-pinterest-p"></i></a>
-									<a class="social-btn color-5" href="page1.html"><i class="fa fa-instagram"></i></a>
-									<a class="social-btn color-6" href="page1.html"><i class="fa fa-linkedin"></i></a>
+								<div class="be-user-social">			
+									<% if(user.facebook) { %>				
+										<a class="social-btn color-1" target="_blank" href="<%= user.facebook %>"><i class="fa fa-facebook"></i></a>
+									<% } %>
+									<% if(user.twitter) { %>	
+										<a class="social-btn color-2" target="_blank" href="<%= user.twitter %>"><i class="fa fa-twitter"></i></a>
+									<% } %>
+									<% if(user.google) { %>	
+										<a class="social-btn color-3" target="_blank" href="<%= user.google %>"><i class="fa fa-google-plus"></i></a>
+									<% } %>
+									<% if(user.pinterest) { %>	
+										<a class="social-btn color-4" target="_blank" href="<%= user.pinterest %>"><i class="fa fa-pinterest-p"></i></a>
+									<% } %>
+									<% if(user.instagram) { %>	
+										<a class="social-btn color-5" target="_blank" href="<%= user.instagram %>"><i class="fa fa-instagram"></i></a>
+									<% } %>
+									<% if(user.linkedin) { %>	
+										<a class="social-btn color-6" target="_blank" href="<%= user.linkedin %>"><i class="fa fa-linkedin"></i></a>
+									<% } %>
 								</div>
 								<a class="be-user-site" href="http://www.phoenix.cool"><i class="fa fa-link"></i> <%= user.email %></a>
 							</div>
@@ -88,13 +100,13 @@
 														<%= post.description %>
 													</span>
 													<div class="author-post">
-														<img src="\img\a1.png" alt="" class="ava-author">
+														<img src="/user/image/<%= post.user._id %>" alt="" class="ava-author">
 														<span>Por <a href="/user/<%= post.user._id %>"><%= post.user.name %></a></span>
 													</div>
 													<div class="info-block">
-														<span><i class="fa fa-thumbs-o-up"></i> 360</span>
-														<span><i class="fa fa-eye"></i> 789</span>
-														<span><i class="fa fa-comment-o"></i> 20</span>
+														<span><i class="fa fa-thumbs-o-up"></i> <%= post.likes %></span>
+														<span><i class="fa fa-eye"></i> <%= post.views %></span>
+														<span><i class="fa fa-comment-o"></i> <%= post.comments.length %></span>
 													</div>
 												</div>									
 											</div>
