@@ -349,12 +349,6 @@
 <script src="\script\ajax.js"></script>
 <script>
 	$(function(){
-		$("#formLogin").submit(function(e){
-			e.preventDefault();
-
-			login();
-		});
-
 		$("#formRegister").submit(function(e){
 			e.preventDefault();
 
@@ -375,9 +369,7 @@
 
             },
             success: function (response) {
-                localStorage.setItem('user', response._id)
-
-                location.href = '/';
+                location.reload();
             },
             complete: function () {
 
@@ -406,8 +398,6 @@
 
             },
             success: function (response) {
-                localStorage.setItem('user', response._id)
-
                 location.href = '/';
             },
             complete: function () {

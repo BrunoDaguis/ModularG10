@@ -49,10 +49,7 @@ app.listen(app.get('port'), () => {
 
 //app.use(express.static('./views'));
 
-
-
-app.use('/', express.static(__dirname + '/views'));
-
+app.use('/', express.static(__dirname + '/Views'));
 
 function authenticate(email, pass, fn) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
   	if (!module.parent) console.log('authenticating %s:%s', email, pass);       
@@ -66,7 +63,6 @@ function restrict(req, res, next) {
   if (req.session.user) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
     next();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
   } else {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-    req.session.error = 'Access denied!';                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
     res.redirect('/login');                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
   }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 } 
@@ -84,11 +80,31 @@ app.get('/logout', function (req, res) {
 });
 
 app.get('/post/new', function (req, res) {
+	if(!req.session.user) return res.redirect('/');
+
 	res.render('post-edit', {session: req.session.user});
+});
+
+app.get('/post/image/:post', function (req, res) {
+	postModel.getById(req.params.post, function(post){
+		if(post.image && post.imageExtension){
+			var img = new Buffer(post.image, 'base64');
+	    	res.writeHead(200, {
+		     'Content-Type': post.imageExtension,
+		     'Content-Length': img.length
+		   	});
+			return res.end(img); 
+		}   	
+
+		var img = fs.readFileSync('views/img/fundopreto.jpg');
+		 res.writeHead(200, {'Content-Type': 'image/jpeg' });
+		 res.end(img, 'binary');
+	});			
 });
 
 app.get('/post/:url', function (req, res) {
 	postModel.getByUrl(req.params.url, function(post){
+		if(!post) return res.redirect('/');
 
 		commentModel.getByPost(post._id, function(comments){
 
@@ -122,7 +138,7 @@ app.get('/post/tags/:tag', function (req, res) {
 
 app.get('/user/myprofile', function (req, res) {
 	if(!req.session.user){
-		return res.status(401).send();
+		return res.redirect('/');
 	}
 
 	userModel.getById(req.session.user._id, function(user){
@@ -134,7 +150,7 @@ app.get('/user/myprofile', function (req, res) {
 
 app.get('/user/edit/myprofile', function (req, res) {
 	if(!req.session.user){
-		return res.status(401).send();
+		return res.redirect('/');
 	}
 
 	userModel.getById(req.session.user._id, function(user){
@@ -156,10 +172,13 @@ app.get('/user/image/:user', function (req, res) {
 		     'Content-Type': user.avatarExtension,
 		     'Content-Length': img.length
 		   	});
-			res.end(img); 
+			return res.end(img); 
 		}   	
 
-		return res.status(404).send();
+		 var img = fs.readFileSync('views/img/fundopreto.jpg');
+		 res.writeHead(200, {'Content-Type': 'image/jpeg' });
+		 res.end(img, 'binary');
+		
 		
 	});			
 });

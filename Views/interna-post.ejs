@@ -26,13 +26,11 @@
 								</h5>
 
 								<span class="be-text-tags">
-									<a href="blog-detail-2.html" class="be-post-tag">Interactiob design</a>, 
-									<a href="blog-detail-2.html" class="be-post-tag">UI/UX</a>,  
-									<a href="blog-detail-2.html" class="be-post-tag">Web Design</a>
+									<%= data.description %>
 								</span>
 								<div class="clear"></div>
 								<div class="post-text">
-									<%= data.content %>
+									<%- data.content %>
 								</div>
 							</div>
 							<div class="be-large-post-align">
@@ -53,7 +51,7 @@
 								<div class="col-md-4">
 									<div class="be-post">
 										<a href="/post/<%= post.url %>" class="be-img-block">
-										<img src="\img\p3.jpg" alt="omg">
+										<img src="/post/image/<%= post._id %>" alt="omg">
 										</a>
 										<a href="blog-detail-2.html" class="be-post-title"><%= post.title %></a>
 										<span>
@@ -102,7 +100,7 @@
 										<div class="be-comment-content">
 											
 												<span class="be-comment-name">
-													<a href="blog-detail-2.html"><%= comment.user.name %></a>
+													<a href="/user/<%= comment.user._id %>"><%= comment.user.name %></a>
 													</span>
 												<span class="be-comment-time">
 													<i class="fa fa-clock-o"></i>
@@ -139,7 +137,7 @@
 									<div class="swiper-slide">
 		                            	<div class="be-post">
 											<a href="/post/<%= post.url %>" class="be-img-block">
-												<img src="\img\p9.jpg" height="202" width="269" alt="omg">
+												<img src="/post/image/<%= post._id %>" height="202" width="269" alt="omg">
 											</a>
 											<a href="blog-detail-2.html" class="be-post-title"><%= post.title %> </a>
 											<span>
@@ -194,7 +192,7 @@
 		            success: function (response) {
 		                var html = '<div class="be-comment">' +
 										'<div class="be-img-comment">' +	
-											'<a href="blog-detail-2.html">' +
+											'<a href="/user/_id_">' +
 												'<img src="/user/image/_id_" alt="" class="be-ava-comment">' +
 											'</a>' +
 										'</div>' +
@@ -215,7 +213,7 @@
 						html = html.replace('_username_', response.user.name);
 						html = html.replace('_text_', response.text);
 						html = html.replace('_date_', response.dateCreate);
-						html = html.replace('_id_', response.user._id);
+						html = html.replace(/_id_/g, response.user._id);
 
 						$("#divComments").append(html);
 

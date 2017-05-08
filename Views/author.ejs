@@ -16,17 +16,17 @@
 						<div class="be-user-block style-3">
 							<div class="be-user-detail">
 								<a class="be-ava-user style-2" href="page1.html">
-									<img src="/user/image/<%= session._id %>" alt=""> 
+									<img src="/user/image/<%= user._id %>" alt=""> 
 								</a>
-								<a class="be-ava-left btn color-1 size-2 hover-1"><i class="fa fa-plus"></i>Follow</a>
+								<a class="be-ava-left btn color-1 size-2 hover-1"><i class="fa fa-plus"></i>Seguir</a>
 								<div class="be-ava-right btn btn-message color-4 size-2 hover-7">
-									<i class="fa fa-envelope-o"></i>message
+									<i class="fa fa-envelope-o"></i>Mensagem
 									<div class="message-popup">
 										<div class="message-popup-inner container">
 											<div class="row">
 												<div class="col-xs-12 col-sm-8 col-sm-offset-2">
 													<i class="fa fa-times close-button"></i>
-													<h5 class="large-popup-title">Send Message To DaVinchi</h5>
+													<h5 class="large-popup-title">Enviar Mensagem</h5>
 													<div class="form-group">
 														<textarea class="form-input" required="" placeholder="Your text"></textarea>
 													</div>
@@ -93,7 +93,7 @@
 											<div class="col-ml-12 col-xs-6 col-sm-4">
 												<div class="be-post">
 													<a href="/post/<%= post.url %>" class="be-img-block">
-													<img src="\img\p1.jpg" alt="omg">
+													<img src="/post/image/<%= post._id %>" alt="omg">
 													</a>
 													<a href="/post/<%= post.url %>" class="be-post-title"><%= post.title %></a>
 													<span>

@@ -132,7 +132,7 @@ var post = {
 		});
 	},
 	getById: function(id, callback){
-		PostModel.findById(id).populate('user').populate('images').populate('comments').exec(function(err, result) {
+		PostModel.findById(id).populate('user').populate('comments').exec(function(err, result) {
 		    if (err)
 		      return console.log(err);
 
