@@ -2,12 +2,9 @@ var http = require('http'),
     fs = require('fs'),
     hash = require('./pass').hash;
 
-//var session = require('express-session');
-var cookieSession = require('cookie-session')
-
-
 var express = require('express');
 var mongoose = require('mongoose');
+var cookieSession = require('cookie-session')
 
 var userModel = require('./model/user.js');
 var postModel = require('./model/post.js');
@@ -22,13 +19,6 @@ var app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-//app.use(express.bodyParser({limit: '50mb'}));
-
-/*app.use(session({
-  secret: '1q2w3e4r5t6y7u8i9o0p',
-  resave: false,
-  saveUninitialized: true
-}));*/
 
 app.use(cookieSession({
   name: 'session',
@@ -36,6 +26,7 @@ app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
 
+app.use('/', express.static(__dirname + '/Views'));
 app.set('view engine', 'ejs');
 
 var options = {
@@ -53,10 +44,6 @@ app.set('port', (process.env.PORT || 5000));
 app.listen(app.get('port'), () => {
 	console.log('listening on 5000')
 });
-
-//app.use(express.static('./views'));
-
-app.use('/', express.static(__dirname + '/Views'));
 
 function authenticate(email, pass, fn) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
   	if (!module.parent) console.log('authenticating %s:%s', email, pass);       
