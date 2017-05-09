@@ -2,7 +2,8 @@ var http = require('http'),
     fs = require('fs'),
     hash = require('./pass').hash;
 
-var session = require('express-session');
+//var session = require('express-session');
+var cookieSession = require('cookie-session')
 
 
 var express = require('express');
@@ -23,10 +24,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(express.bodyParser({limit: '50mb'}));
 
-app.use(session({
+/*app.use(session({
   secret: '1q2w3e4r5t6y7u8i9o0p',
   resave: false,
   saveUninitialized: true
+}));*/
+
+app.use(cookieSession({
+  name: 'session',
+  keys: ['1q2w3e4r5t6y7u8i9o0p'],
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
 
 app.set('view engine', 'ejs');
@@ -74,9 +81,9 @@ app.get('/', function (req, res) {
 });
 
 app.get('/logout', function (req, res) {
-	req.session.destroy(function(err) {
-		res.redirect('/');
-	});
+	req.session = null
+
+	return res.redirect('/');
 });
 
 app.get('/post/new', function (req, res) {
@@ -253,15 +260,8 @@ app.delete('/api/user/:id', (req, res) => {
 app.post('/api/user/login', (req, res) => {
 	authenticate(req.body.email, req.body.password, function(user){                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 		if (user) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-			// Regenerate session when signing in                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-			// to prevent fixation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-			req.session.regenerate(function(){                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-				// Store the user's primary key                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-				// in the session store to be retrieved,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-				// or in this case the entire user object                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-				req.session.user = {_id: user._id, name: user.name};                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-				res.json({ user: req.session.user });                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-			});                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+			req.session.user = {_id: user._id, name: user.name};                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+			return res.json({ user: req.session.user });                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 		} else {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 			return res.status(400).send();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
 		}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
