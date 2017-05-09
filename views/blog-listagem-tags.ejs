@@ -25,7 +25,7 @@
 										<span>Por <a href="/user/<%= post.user._id %>"><%= post.user.name %></a></span>
 									</div>
 								</div>						
-								<a class="post-preview post-image" href="/post/<%= post.url %>"><img class="img-responsive img-full" src="\img\blog_grid_1.jpg" alt=""></a>
+								<a class="post-preview post-image" href="/post/<%= post.url %>"><img class="img-responsive img-full" src="/post/image/<%= post._id %>" alt=""></a>
 								<div class="post-desc">
 									<a class="post-label" href="/post/<%= post.url %>"><%= post.title %></a>
 									<div class="post-text"><%= post.description %></div>
