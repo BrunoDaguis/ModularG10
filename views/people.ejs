@@ -13,22 +13,23 @@
 		<div class="head-bg">
 			<div class="head-bg-img"></div>
 			<div class="head-bg-content">
-				<h1>Your Best Social Network Template</h1>
-				<p>Donec in rhoncus tortor. Sed tristique auctor ligula vel viverra</p>
-				<a class="btn color-1 size-1 hover-1" href="blog-detail-2.html"><i class="fa fa-facebook"></i>sign up via facebook</a>
-				<a class="be-register btn color-3 size-1 hover-6"><i class="fa fa-lock"></i>sign up now</a>
+				<h1>Blog IBTA</h1>
+				<p>Projeto modular</p>
+				<% if(!session) { %>
+					<a class="be-register btn color-3 size-1 hover-6"><i class="fa fa-lock"></i>Cadastre-se</a>
+				<% } %>
 			</div>	
 		</div>
 		<div class="container-fluid custom-container">
 			<div class="row">
 				<div class="col-md-2 left-feild">
 					<form action="./" class="input-search">
-						<input type="text" required="" placeholder="Enter keyword">
+						<input type="text" required="" placeholder="Pessoas, Artigos, Pessoas">
 							<i class="fa fa-search"></i>
 							<input type="submit" value="">
 					</form>
 				</div>
-				<div class="col-md-10 ">
+				<div class="col-md-10 " style="visibility:hidden;">
 					<div class="for-be-dropdowns">
 						<div class="be-drop-down">
 							<i class="icon-projects"></i>
