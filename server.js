@@ -50,10 +50,6 @@ mongoose.connect('mongodb://ds015889.mlab.com:15889/testedaguis', options);
 
 app.set('port', (process.env.PORT || 5000));
 
-app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
-});
-
 app.listen(app.get('port'), () => {
 	console.log('listening on 5000')
 });
