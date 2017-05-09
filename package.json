@@ -4,8 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "NODE_ENV=development node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cross-env NODE_ENV=development webpack --config build/webpack.config.js"
   },
   "author": "",
   "license": "ISC",
@@ -14,14 +15,16 @@
     "angular-route": "^1.5.11",
     "angular-sanitize": "^1.5.11",
     "body-parser": "^1.15.2",
-    "cookie": "0.3.1",
-    "cookie-signature": "1.0.6",
+    "cookie-session": "^2.0.0-beta.1",
     "ejs": "^2.4.2",
     "express": "4.8.*",
-    "method-override":"*",
     "express-session": "^1.15.2",
+    "method-override": "*",
     "mongodb": "^2.2.4",
     "mongoose": "^4.5.5",
     "textangular": "^1.5.16"
+  },
+  "devDependencies": {
+    "cross-env": "^4.0.0"
   }
 }
