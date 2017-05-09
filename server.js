@@ -63,7 +63,7 @@ function restrict(req, res, next) {
 
 app.get('/', function (req, res) {
 	postModel.get(function(results){
-		res.render('index.ejs', {data: results, session: req.session.user});
+		res.render('index', {data: results, session: req.session.user});
 	});	
 });
 
