@@ -415,9 +415,9 @@
 	            success: function (response) {
 	              	debugger;
 	              	if(!response) return;
-              		if($("#container-mix label[data-info='count'][data-post='" + response._id + "'")){
-              			$("#container-mix label[data-info='count'][data-post='" + response._id + "'").html(response.likes.length);
-              		}
+              		
+              		$(".info-block label[data-info='count'][data-post='" + response._id + "'").html(response.likes.length);
+              		
 	            },
 	            complete: function () {
 
