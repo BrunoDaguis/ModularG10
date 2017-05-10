@@ -140,10 +140,24 @@ app.get('/user/myprofile', function (req, res) {
 	}
 
 	userModel.getById(req.session.user._id, function(user){
-		postModel.getByUser(user._id, function(posts){
-			res.render('author', {user: user, posts: posts, session: req.session.user});
-		});	
-	});		
+
+		likePostModel.getByUser(user._id, function(likes){
+
+			viewUserModel.create({ userVisited: user._id, user: req.session.user == null ? null : req.session.user._id }, function(view){
+
+				userModel.addView(user._id, view._id, function(){
+
+					postModel.getByUser(user._id, function(posts){
+						return res.render('author', {user: user, posts: posts, likes: likes, session: req.session.user});
+					});	
+
+				});													
+
+			});	
+
+		});
+	
+	});				
 });
 
 app.get('/user/edit/myprofile', function (req, res) {
