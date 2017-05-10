@@ -151,6 +151,14 @@ var user = {
 				callback(result);
 			});	
 		});
+	},
+	getByEmail: function(email, callback){
+		UserModel.findOne({ 'email': email }, function(err, result) {
+		    if (err)
+		      return console.log(err);
+
+		    callback(result);
+		});
 	}
 }
 module.exports = user;

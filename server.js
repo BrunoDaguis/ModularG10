@@ -257,13 +257,18 @@ app.get('/api/user/:id', function (req, res) {
 });
 
 app.post('/api/user', (req, res) => {
-	userModel.save(req.body, function(user){
+	userModel.getByEmail(req.body.email, function(user){
+		if(!user){
+			userModel.save(req.body, function(user){
+				req.session.user = null;	
+				req.session.user = {_id: user._id, name: user.name};                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+				return res.json({_id: user._id});                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 
-		req.session.user = null;	
-		req.session.user = {_id: user._id, name: user.name};                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-		res.json({_id: user._id});                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-
-	});
+			});
+		}else{
+			return res.status(401).send();
+		}
+	})	
 });
 
 app.put('/api/user', (req, res) => {

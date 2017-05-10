@@ -395,7 +395,11 @@
 
             },
             error: function (error) {
-            	alert('Erro no cadastro');
+            	if(error.status === 401){
+            		alert("Email já cadastrado");
+            	}else{
+            		alert('Erro no cadastro');
+            	}            	
             }
         });
 	}
