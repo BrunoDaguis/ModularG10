@@ -112,7 +112,7 @@ app.get('/post/:url', function (req, res) {
 
 						postModel.addView(post._id, function(){
 							post.views += 1;
-							res.render('interna-post', {data: post, relateds: relateds, postsByUser: postsByUser, comments: comments, session: req.session.user});
+							return res.render('interna-post', {data: post, relateds: relateds, postsByUser: postsByUser, comments: comments, session: req.session.user});
 						});										
 
 					});	

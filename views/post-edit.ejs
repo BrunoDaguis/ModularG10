@@ -77,6 +77,12 @@
 										</div>
 										<div class="input-col col-xs-12 col-sm-12">
 											<div class="form-group fg_icon focus-2">
+												<div class="form-label">Video</div>
+												<input class="form-input" type="text" id="video" placeholder="Ex.: https://www.youtube.com/embed/CRLCe-q_R0A">
+											</div>							
+										</div>
+										<div class="input-col col-xs-12 col-sm-12">
+											<div class="form-group fg_icon focus-2">
 												<div id="editor">
 
                                 				</div>	
@@ -102,7 +108,7 @@
 		<script>
 			var image;
 			$(function(){
-				initSample('text');
+				initSample('');
 
 				$("#tags").tagsInput({
 	                width:'100%'
@@ -124,6 +130,7 @@
 					title: $("#title").val(),
 					description: $("#description").val(),
 					content: CKEDITOR.instances.editor.getData(),
+					video: $("#video").val(),
 					image: image,
 					imageExtension: imageExtension,
 					tags: tags,
