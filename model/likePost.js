@@ -32,7 +32,22 @@ var likePost = {
 				return callback(false, model);
 			});
 		});
-		
+	},
+	getByUser: function(userId, callback){
+		LikePostModel.find({user: userId}).populate({
+			  path: 'post', 
+			  model: 'post',
+			  populate: {
+			    path: 'user',
+			    model: 'user'
+			  }
+			}).exec(function(err, likes) {
+
+	    	if (err)
+		      return console.log(err);
+
+		  	return callback(likes);
+		});
 	}
 }
 module.exports = likePost;

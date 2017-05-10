@@ -83,14 +83,16 @@ app.get('/post/new', function (req, res) {
 
 app.get('/post/image/:post', function (req, res) {
 	postModel.getById(req.params.post, function(post){
-		if(post.image && post.imageExtension){
-			var img = new Buffer(post.image, 'base64');
-	    	res.writeHead(200, {
-		     'Content-Type': post.imageExtension,
-		     'Content-Length': img.length
-		   	});
-			return res.end(img); 
-		}   	
+		if(post){
+			if(post.image && post.imageExtension){
+				var img = new Buffer(post.image, 'base64');
+		    	res.writeHead(200, {
+			     'Content-Type': post.imageExtension,
+			     'Content-Length': img.length
+			   	});
+				return res.end(img); 
+			}   
+		}			
 
 		var img = fs.readFileSync('views/img/fundopreto.jpg');
 		 res.writeHead(200, {'Content-Type': 'image/jpeg' });
@@ -161,39 +163,51 @@ app.get('/user', function (req, res) {
 });
 
 app.get('/user/image/:user', function (req, res) {
-	userModel.getById(req.params.user, function(user){
-		if(user.avatar && user.avatarExtension){
-			var img = new Buffer(user.avatar, 'base64');
-	    	res.writeHead(200, {
-		     'Content-Type': user.avatarExtension,
-		     'Content-Length': img.length
-		   	});
-			return res.end(img); 
-		}   	
+	console.log(req.params.user);
 
-		 var img = fs.readFileSync('views/img/fundopreto.jpg');
-		 res.writeHead(200, {'Content-Type': 'image/jpeg' });
-		 res.end(img, 'binary');
-		
-		
+	if(!req.params.user){
+
+		return res.status(401).send();
+	}
+	userModel.getById(req.params.user, function(user){
+		if(user){
+			if(user.avatar && user.avatarExtension){
+				var img = new Buffer(user.avatar, 'base64');
+		    	res.writeHead(200, {
+			     'Content-Type': user.avatarExtension,
+			     'Content-Length': img.length
+			   	});
+				return res.end(img); 
+			}  
+		}	 	
+
+		var img = fs.readFileSync('views/img/fundopreto.jpg');
+		res.writeHead(200, {'Content-Type': 'image/jpeg' });
+		return res.end(img, 'binary');	
 	});			
 });
 
 app.get('/user/:user', function (req, res) {
 	userModel.getById(req.params.user, function(user){
 
-		viewUserModel.create({ userVisited: user._id, user: req.session.user == null ? null : req.session.user._id }, function(view){
+		likePostModel.getByUser(user._id, function(likes){
 
-			userModel.addView(user._id, view._id, function(){
+			viewUserModel.create({ userVisited: user._id, user: req.session.user == null ? null : req.session.user._id }, function(view){
 
-				postModel.getByUser(user._id, function(posts){
-					return res.render('author', {user: user, posts: posts, session: req.session.user});
-				});	
+				userModel.addView(user._id, view._id, function(){
 
-			});													
+					postModel.getByUser(user._id, function(posts){
+						return res.render('author', {user: user, posts: posts, likes: likes, session: req.session.user});
+					});	
 
-		});			
+				});													
+
+			});	
+
+		});
+	
 	});			
+
 });
 
 

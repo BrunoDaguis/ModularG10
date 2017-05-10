@@ -61,7 +61,7 @@
 								<a class="be-user-site" href="http://www.phoenix.cool"><i class="fa fa-link"></i> <%= user.email %></a>
 							</div>
 							<div class="be-user-statistic">
-								<div class="stat-row clearfix"><i class="stat-icon icon-views-b"></i> Visualizações<span class="stat-counter">218098</span></div>
+								<div class="stat-row clearfix"><i class="stat-icon icon-views-b"></i> Visualizações<span class="stat-counter"><%= user.views.length %></span></div>
 								<div class="stat-row clearfix"><i class="stat-icon icon-like-b"></i>Curtidas<span class="stat-counter">14335</span></div>
 								<div class="stat-row clearfix"><i class="stat-icon icon-followers-b"></i>Seguidores<span class="stat-counter">2208</span></div>
 								<div class="stat-row clearfix"><i class="stat-icon icon-following-b"></i>Seguindo<span class="stat-counter">0</span></div>
@@ -82,8 +82,11 @@
 	                        <div class="tab-nav-wrapper">
 	                            <div class="nav-tab  clearfix">
 	                                <div class="nav-tab-item active">
-	                                    <span>Postagens</span>
+	                                    <span>Artigos Criados</span>
 	                                </div>                                                           
+	                                <div class="nav-tab-item">
+	                                    <span>Artigos Curtidos</span>
+	                                </div>
 	                            </div>
 	                        </div>
 	                        <div class="tabs-content clearfix">
@@ -116,7 +119,37 @@
 											</div>
 										<% }); %>
 									</div>
-	                            </div>                        
+	                            </div>       
+	                            <div class="tab-info">
+									<div class="row">
+										<% likes.forEach(function(like) { %>
+											<div class="col-ml-12 col-xs-6 col-sm-4">
+												<div class="be-post">
+													<% if(like.post.videoThumb) { %>
+														<iframe style="position: relative; height: 100%; width: 100%;" src="<%= like.post.videoThumb %>" frameborder="0" allowfullscreen></iframe>
+													<% } else { %>
+														<a href="/post/<%= like.post.url %>" class="be-img-block">
+															<img src="/post/image/<%= like.post._id %>" alt="omg">
+														</a>
+													<% } %>
+													<a href="/post/<%= like.post.url %>" class="be-post-title"><%= like.post.title %></a>
+													<span>
+														<%= like.post.description %>
+													</span>
+													<div class="author-post">
+														<img src="/user/image/<%= like.post.user._id %>" alt="" class="ava-author">
+														<span>Por <a href="/user/<%= like.post.user._id %>"><%= like.post.user.name %></a></span>
+													</div>
+													<div class="info-block">
+														<span><i class="fa fa-thumbs-o-up" onclick="likePost('<%= like.post._id %>');"></i> <label data-info="count" data-post="<%= like.post._id %>"><%= like.post.likes.length %></label></span>
+														<span><i class="fa fa-eye"></i> <%= like.post.views %></span>
+														<span><i class="fa fa-comment-o"></i> <%= like.post.comments.length %></span>
+													</div>
+												</div>									
+											</div>
+										<% }); %>
+									</div>
+	                            </div>                 
 	                        </div>
 	                    </div> 				
 					</div>				
