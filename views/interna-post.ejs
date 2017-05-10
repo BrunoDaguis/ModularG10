@@ -142,9 +142,13 @@
 	                        	<% postsByUser.forEach(function(post) { %>
 									<div class="swiper-slide">
 		                            	<div class="be-post">
-											<a href="/post/<%= post.url %>" class="be-img-block">
-												<img src="/post/image/<%= post._id %>" height="202" width="269" alt="omg">
-											</a>
+											<% if(post.videoThumb) { %>
+												<iframe style="position: relative; height: 100%; width: 100%;" src="<%= post.videoThumb %>" frameborder="0" allowfullscreen></iframe>
+											<% } else { %>
+												<a href="/post/<%= post.url %>" class="be-img-block">
+													<img src="/post/image/<%= post._id %>" alt="omg">
+												</a>
+											<% } %>
 											<a href="blog-detail-2.html" class="be-post-title"><%= post.title %> </a>
 											<span>
 												<%= post.description %>

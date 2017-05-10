@@ -92,9 +92,13 @@
 										<% posts.forEach(function(post) { %>
 											<div class="col-ml-12 col-xs-6 col-sm-4">
 												<div class="be-post">
-													<a href="/post/<%= post.url %>" class="be-img-block">
-													<img src="/post/image/<%= post._id %>" alt="omg">
-													</a>
+													<% if(post.videoThumb) { %>
+														<iframe style="position: relative; height: 100%; width: 100%;" src="<%= post.videoThumb %>" frameborder="0" allowfullscreen></iframe>
+													<% } else { %>
+														<a href="/post/<%= post.url %>" class="be-img-block">
+															<img src="/post/image/<%= post._id %>" alt="omg">
+														</a>
+													<% } %>
 													<a href="/post/<%= post.url %>" class="be-post-title"><%= post.title %></a>
 													<span>
 														<%= post.description %>

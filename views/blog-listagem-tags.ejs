@@ -24,8 +24,13 @@
 										<img src="\img\a1.png" alt="" class="ava-author">
 										<span>Por <a href="/user/<%= post.user._id %>"><%= post.user.name %></a></span>
 									</div>
-								</div>						
-								<a class="post-preview post-image" href="/post/<%= post.url %>"><img class="img-responsive img-full" src="/post/image/<%= post._id %>" alt=""></a>
+								</div>				
+								<% if(post.videoThumb) { %>
+									<iframe style="position: relative; height: 100%; width: 100%;" src="<%= post.videoThumb %>" frameborder="0" allowfullscreen></iframe>
+								<% } else { %>
+									<a class="post-preview post-image" href="/post/<%= post.url %>"><img class="img-responsive img-full" src="/post/image/<%= post._id %>" alt=""></a>
+								<% } %>		
+								
 								<div class="post-desc">
 									<a class="post-label" href="/post/<%= post.url %>"><%= post.title %></a>
 									<div class="post-text"><%= post.description %></div>
