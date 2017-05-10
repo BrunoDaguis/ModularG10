@@ -220,10 +220,10 @@ app.get('/api/user/:id', function (req, res) {
 app.post('/api/user', (req, res) => {
 	userModel.save(req.body, function(user){
 
-		req.session.regenerate(function(){                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-			req.session.user = {_id: user._id, name: user.name};                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-			res.json({_id: user._id});                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-		}); 		
+		req.session.user = null;	
+		req.session.user = {_id: user._id, name: user.name};                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+		res.json({_id: user._id});                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+
 	});
 });
 
