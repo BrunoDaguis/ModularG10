@@ -12,6 +12,7 @@ var commentModel = require('./model/comment.js');
 var imagesModel = require('./model/image.js');
 var likeModel = require('./model/like.js');
 var viewPostModel = require('./model/viewPost.js');
+var viewUserModel = require('./model/viewUser.js');
 
 var bodyParser= require('body-parser');
 
@@ -179,9 +180,18 @@ app.get('/user/image/:user', function (req, res) {
 
 app.get('/user/:user', function (req, res) {
 	userModel.getById(req.params.user, function(user){
-		postModel.getByUser(user._id, function(posts){
-			res.render('author', {user: user, posts: posts, session: req.session.user});
-		});	
+
+		viewUserModel.create({ userVisited: user._id, user: req.session.user == null ? null : req.session.user._id }, function(view){
+
+			userModel.addView(user._id, view._id, function(){
+
+				postModel.getByUser(user._id, function(posts){
+					return res.render('author', {user: user, posts: posts, session: req.session.user});
+				});	
+
+			});													
+
+		});			
 	});			
 });
 

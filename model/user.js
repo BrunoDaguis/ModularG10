@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 
+var Schema = mongoose.Schema;
+
 var UserSchema   = new mongoose.Schema({
   name: {type: String, required: true},
   email: {type: String, required: true, index:{unique:true}},
@@ -17,6 +19,7 @@ var UserSchema   = new mongoose.Schema({
   pinterest: {type: String },
   instagram: {type: String },
   linkedin: {type: String },
+  views: [{type: Schema.ObjectId, required: true, ref: "viewUser"}],
   dateCreate:  {type: Date, default: Date.now}
 });
 
@@ -127,6 +130,19 @@ var user = {
 	changePassword: function(json, callback){
 		user.getById(json._id, function(result){
 			result.password = json.newPassword;
+			
+			result.save(function(err) {
+				if (err)
+					return console.log(err);
+
+				callback(result);
+			});	
+		});
+	},
+	addView: function(userId, viewId, callback){
+		user.getById(userId, function(result){
+
+			result.views.push(viewId);
 			
 			result.save(function(err) {
 				if (err)
