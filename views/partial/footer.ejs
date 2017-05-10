@@ -399,4 +399,34 @@
             }
         });
 	}
+
+	function likePost(post){
+			var obj = {
+	            post: post
+	        }
+
+	        ajax.send({
+	            url: "/api/post/like",
+	            data: JSON.stringify(obj),
+	            method: "POST",
+	            beforeSend: function () {
+
+	            },
+	            success: function (response) {
+	              	debugger;
+	              	if(!response) return;
+              		if($("#container-mix label[data-info='count'][data-post='" + response._id + "'")){
+              			$("#container-mix label[data-info='count'][data-post='" + response._id + "'").html(response.likes.length);
+              		}
+	            },
+	            complete: function () {
+
+	            },
+	            error: function (error) {
+	            	if(error.status === 401){
+	            		alert('Você precisa estar logado para curtir');	
+	            	}		            	
+	            }
+	        });
+		}
 </script>

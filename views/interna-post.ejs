@@ -15,7 +15,7 @@
 						<div class="be-large-post">
 							<div class="info-block">
 								<div class="be-large-post-align">
-									<span><i class="fa fa-thumbs-o-up"></i> <%= data.likes %></span>
+									<span><i class="fa fa-thumbs-o-up" onclick="likePost('<%= data._id %>');"></i> <label data-info="count" data-post="<%= data._id %>"><%= data.likes.length %></label></span>
 									<span><i class="fa fa-eye"></i> <%= data.views %></span>
 									<span><i class="fa fa-comment-o"></i> <%= data.comments.length %></span>
 								</div>
@@ -62,7 +62,7 @@
 											<span>Por <a href="/user/<%= post.user._id %>"><%= post.user.name %></a></span>
 										</div>
 										<div class="info-block">
-											<span><i class="fa fa-thumbs-o-up"></i> <%= post.likes %></span>
+											<span><i class="fa fa-thumbs-o-up" onclick="likePost('<%= post._id %>');"></i> <label data-info="count" data-post="<%= post._id %>"><%= post.likes.length %></label></span>
 											<span><i class="fa fa-eye"></i> <%= post.views %></span>
 											<span><i class="fa fa-comment-o"></i> <%= post.comments.length %></span>
 										</div>
@@ -148,9 +148,9 @@
 												<span>Por <a href="/user/<%= post.user._id %>"><%= post.user.name %></a></span>
 											</div>
 											<div class="info-block">
-												<span><i class="fa fa-thumbs-o-up"></i> <%= post.likes %></span>
-											<span><i class="fa fa-eye"></i> <%= post.views %></span>
-											<span><i class="fa fa-comment-o"></i> <%= post.comments.length %></span>
+												<span><i class="fa fa-thumbs-o-up" onclick="likePost('<%= post._id %>');"></i> <label data-info="count" data-post="<%= post._id %>"><%= post.likes.length %></label></span>
+												<span><i class="fa fa-eye"></i> <%= post.views %></span>
+												<span><i class="fa fa-comment-o"></i> <%= post.comments.length %></span>
 											</div>
 										</div>
 		                            </div>

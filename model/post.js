@@ -13,7 +13,7 @@ var PostSchema   = Schema({
   comments: [{type: Schema.ObjectId, ref: "comment"}],
   tags: [{type: String, required: false }],
   dateCreate:  {type: Date, default: Date.now},
-  likes: {type: Number, default: 0},
+  likes: [{type: Schema.ObjectId, ref: "likePost"}],
   views: {type: Number, default: 0}
 });
 
@@ -77,10 +77,10 @@ var post = {
 			callback(result);
 	    });
 	},
-	addLike: function(postId, callback){
-		post.getById(postId, function(result){
+	addLike: function(json, callback){
+		post.getById(json.post, function(result){
 			
-			result.likes = result.likes + 1;
+			result.likes.push(json.like);
 			
 			result.save(function(err) {
 				if (err)
@@ -140,8 +140,8 @@ var post = {
 		});
 	},
 	getByUrl: function(url, callback){
-		PostModel.findOne({url: url}).populate('user').populate('images').populate('comments').populate('comments.user').exec(function(err, result) {
-	    if (err)
+		PostModel.findOne({url: url}).populate('user').populate('images').populate('comments').exec(function(err, result) {
+	    	if (err)
 		      return console.log(err);
 
 		    callback(result);

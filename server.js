@@ -10,7 +10,8 @@ var userModel = require('./model/user.js');
 var postModel = require('./model/post.js');
 var commentModel = require('./model/comment.js');
 var imagesModel = require('./model/image.js');
-var likeModel = require('./model/like.js');
+var likePostModel = require('./model/likePost.js');
+
 var viewPostModel = require('./model/viewPost.js');
 var viewUserModel = require('./model/viewUser.js');
 
@@ -297,6 +298,20 @@ app.post('/api/post', (req, res) => {
 
 	postModel.save(req.body, function(result){
 		res.json(result);
+	});
+});
+
+app.post('/api/post/like', function (req, res) {
+	if(!req.session.user){
+		return res.status(401).send();
+	}
+
+	likePostModel.create({post: req.body.post, user: req.session.user._id}, function(err, like){
+		if(err) return res.json(null);
+
+		postModel.addLike({post: like.post, like: like._id}, function(post){
+			return res.json(post);
+		});			
 	});
 });
 
