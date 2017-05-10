@@ -127,7 +127,7 @@ app.get('/post/:url', function (req, res) {
 });
 
 app.get('/post/tags/:tag', function (req, res) {
-	postModel.getByTags(req.params.tag, function(posts){
+	postModel.getByTag(req.params.tag, function(posts){
 		res.render('blog-listagem-tags', {data: posts, tag: req.params.tag, session: req.session.user});
 	});			
 });

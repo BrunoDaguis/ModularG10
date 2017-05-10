@@ -12,7 +12,7 @@ var LikePostModel = mongoose.model('likePost', LikePostSchema, 'likePost');
 
 var likePost = {
 	create: function(json, callback){
-		LikePostModel.findOne({user: json.user}).exec(function(err, like) {
+		LikePostModel.findOne({user: json.user, post: json.post}).exec(function(err, like) {
 	    	if (err)
 		      return console.log(err);
 

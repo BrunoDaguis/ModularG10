@@ -53,26 +53,28 @@
 						</div>
 						<div class="row">
 							<% relateds.forEach(function(post) { %>
-								<div class="col-md-4">
-									<div class="be-post">
-										<a href="/post/<%= post.url %>" class="be-img-block">
-										<img src="/post/image/<%= post._id %>" alt="omg">
-										</a>
-										<a href="blog-detail-2.html" class="be-post-title"><%= post.title %></a>
-										<span>
-											<%= post.description %>
-										</span>
-										<div class="author-post">
-											<img src="/user/image/<%= post.user._id %>" alt="" class="ava-author">
-											<span>Por <a href="/user/<%= post.user._id %>"><%= post.user.name %></a></span>
-										</div>
-										<div class="info-block">
-											<span><i class="fa fa-thumbs-o-up" onclick="likePost('<%= post._id %>');"></i> <label data-info="count" data-post="<%= post._id %>"><%= post.likes.length %></label></span>
-											<span><i class="fa fa-eye"></i> <%= post.views %></span>
-											<span><i class="fa fa-comment-o"></i> <%= post.comments.length %></span>
+								<% if(post._id != data._id) { %>
+									<div class="col-md-4">
+										<div class="be-post">
+											<a href="/post/<%= post.url %>" class="be-img-block">
+											<img src="/post/image/<%= post._id %>" alt="omg">
+											</a>
+											<a href="blog-detail-2.html" class="be-post-title"><%= post.title %></a>
+											<span>
+												<%= post.description %>
+											</span>
+											<div class="author-post">
+												<img src="/user/image/<%= post.user._id %>" alt="" class="ava-author">
+												<span>Por <a href="/user/<%= post.user._id %>"><%= post.user.name %></a></span>
+											</div>
+											<div class="info-block">
+												<span><i class="fa fa-thumbs-o-up" onclick="likePost('<%= post._id %>');"></i> <label data-info="count" data-post="<%= post._id %>"><%= post.likes.length %></label></span>
+												<span><i class="fa fa-eye"></i> <%= post.views %></span>
+												<span><i class="fa fa-comment-o"></i> <%= post.comments.length %></span>
+											</div>
 										</div>
 									</div>
-								</div>
+								<% } %>
 						    <% }); %>
 						</div>
 						<div class="be-comment-block">

@@ -151,6 +151,14 @@ var post = {
 		});
 	},
 	getByTags: function(tags, callback){
+		PostModel.find({ tags: { $in : tags } }).populate('user').populate('images').populate('comments').exec(function(err, result) {
+		    if (err)
+		      return console.log(err);
+
+		    callback(result);
+		});
+	},
+	getByTag: function(tags, callback){
 		PostModel.find({tags: tags}).populate('user').populate('images').populate('comments').exec(function(err, result) {
 		    if (err)
 		      return console.log(err);
