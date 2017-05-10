@@ -7,6 +7,7 @@ var PostSchema   = Schema({
   description: {type: String, required: true},
   url: {type: String, required: true},
   video: {type: String },
+  videoThumb: {type: String },
   image: {type: String },
   imageExtension: {type: String },
   content: {type: String, required: true },
@@ -28,6 +29,7 @@ var post = {
 		model.description = json.description;
 		model.content = json.content;
 		model.video = json.video;
+		model.videoThumb = json.videoThumb;
 		model.image = json.image;
 		model.imageExtension = json.imageExtension;
 		model.tags = json.tags;
@@ -48,6 +50,7 @@ var post = {
 			result.description = json.description;
 			result.content = json.content;
 			result.video = json.video;
+			result.videoThumb = json.videoThumb;
 			result.tags = json.tags;
 			result.image = json.image;
 			result.imageExtension = json.imageExtension;

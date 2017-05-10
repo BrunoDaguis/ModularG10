@@ -58,6 +58,13 @@
 									<div class="row">
 										<div class="input-col col-xs-12 col-sm-12">
 											<div class="form-group fg_icon focus-2">
+												<div class="form-label">Thumb Video</div>
+												<input class="form-input" type="text" id="videoThumb" placeholder="Ex.: https://www.youtube.com/embed/CRLCe-q_R0A">
+											</div>							
+										</div>
+
+										<div class="input-col col-xs-12 col-sm-12">
+											<div class="form-group fg_icon focus-2">
 												<div class="form-label">Titulo</div>
 												<input class="form-input" type="text" id="title" placeholder="Titulo">
 											</div>							
@@ -131,6 +138,7 @@
 					description: $("#description").val(),
 					content: CKEDITOR.instances.editor.getData(),
 					video: $("#video").val(),
+					videoThumb: $("#videoThumb").val(),
 					image: image,
 					imageExtension: imageExtension,
 					tags: tags,
