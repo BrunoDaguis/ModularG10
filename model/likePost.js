@@ -17,7 +17,7 @@ var likePost = {
 		      return console.log(err);
 
 		  	if(like){
-		  		return callback(true, model);
+		  		return callback(true, like);
 		  	}
 
 		  	var model = new LikePostModel();
