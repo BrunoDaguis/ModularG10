@@ -20,6 +20,7 @@ var UserSchema   = new mongoose.Schema({
   instagram: {type: String },
   linkedin: {type: String },
   views: [{type: Schema.ObjectId, required: true, ref: "viewUser"}],
+  followers: [{type: Schema.ObjectId, ref: "followUser"}],
   dateCreate:  {type: Date, default: Date.now}
 });
 

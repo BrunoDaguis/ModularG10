@@ -271,6 +271,22 @@ app.post('/api/user', (req, res) => {
 	})	
 });
 
+app.post('/api/user/follow', (req, res) => {
+	if(!req.session.user){
+		return res.status(401).send();
+	}
+	userModel.getByEmail(req.body.user, function(user){
+		if(!user){
+			userModel.save(req.body, function(user){
+				req.session.user = null;	
+				req.session.user = {_id: user._id, name: user.name};                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+				return res.json({_id: user._id});                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+
+			});
+		}
+	})	
+});
+
 app.put('/api/user', (req, res) => {
 	if(!req.session.user){
 		return res.status(401).send();

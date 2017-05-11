@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<% include partial/css %>
+	</head>
+	<body>
+	<!-- THE HEADER -->
+		<% include partial/header %>
+
+		<!-- MAIN CONTENT -->
+		<div id="content-block">
+			<div class="container custom-container be-detail-container">
+				<div class="row">
+					<div class="col-md-9 col-md-push-3">
+						<div class="be-large-post">
+							<div class="info-block">
+							<div class="be-large-post-align">
+								<span><i class="fa fa-thumbs-o-up" onclick="likePost('<%= data._id %>');"></i> <label data-info="count" data-post="<%= data._id %>"><%= data.likes.length %></label></span>
+								<span><i class="fa fa-eye"></i> <%= data.views %></span>
+								<span><i class="fa fa-comment-o"></i> <%= data.comments.length %></span>
+							</div>
+							</div>
+							<div class="blog-content be-large-post-align">
+								<h5 class="be-post-title to">
+									<%= data.title %>	
+								</h5>
+								<span class="be-text-tags">
+									<%= data.description %>
+								</span>
+								<div class="clear"></div>
+								<div class="be-largepost-iframe embed-responsive embed-responsive-16by9">
+									<iframe class="embed-responsive-item" src="<%= data.video %>" frameborder="0" allowfullscreen></iframe>
+								</div>
+								<div class="post-text">
+									<%- data.content %>						
+								</div>							
+							</div>
+							<div class="be-large-post-align">
+								<h3 class="letf-menu-article">
+									Tags
+								</h3>
+								<div class="tags_block clearfix">
+									<ul>
+										<% data.tags.forEach(function(tag) { %>
+											<li><a href="/post/tags/<%= tag %>"><%= tag %></a></li>
+									    <% }); %>
+									</ul>
+								</div>
+							</div>						
+						</div>
+						<div class="row">
+							<% relateds.forEach(function(post) { %>
+								<div class="col-md-4">
+									<div class="be-post">
+										<a href="/post/<%= post.url %>" class="be-img-block">
+										<img src="/post/image/<%= post._id %>" alt="omg">
+										</a>
+										<a href="blog-detail-2.html" class="be-post-title"><%= post.title %></a>
+										<span>
+											<%= post.description %>
+										</span>
+										<div class="author-post">
+											<img src="/user/image/<%= post.user._id %>" alt="" class="ava-author">
+											<span>Por <a href="/user/<%= post.user._id %>"><%= post.user.name %></a></span>
+										</div>
+										<div class="info-block">
+											<span><i class="fa fa-thumbs-o-up" onclick="likePost('<%= post._id %>');"></i> <label data-info="count" data-post="<%= post._id %>"><%= post.likes.length %></label></span>
+											<span><i class="fa fa-eye"></i> <%= post.views %></span>
+											<span><i class="fa fa-comment-o"></i> <%= post.comments.length %></span>
+										</div>
+									</div>
+								</div>
+						    <% }); %>
+						</div>
+						<div class="be-comment-block">
+							<h1 class="comments-title">Comentarios (<%= comments.length %>)</h1>
+							<% if(session == null) { %>
+								<p class="about-comment-block">
+									Você deve <a href="blog-detail-2.html" class="be-signup-link">ENTRAR</a>
+									 para poder comentar.
+								</p>
+							<% } else { %>
+								<form class="form-block" id="formComments" >
+									<div class="row">
+										<div class="col-xs-12">									
+											<div class="form-group">
+												<textarea class="form-input" required="" id="message" placeholder="Sua mensagem"></textarea>
+											</div>
+										</div>
+										<a class="btn color-1 size-2 hover-1 pull-right" id="saveComment" >Enviar</a>
+									</div>
+								</form>
+							<% } %>
+							<div id="divComments">
+								<% comments.forEach(function(comment) { %>
+									<div class="be-comment">
+										<div class="be-img-comment">	
+											<a href="blog-detail-2.html">
+												<img src="/user/image/<%= comment.user._id %>" alt="" class="be-ava-comment">
+											</a>
+										</div>
+										<div class="be-comment-content">
+											
+												<span class="be-comment-name">
+													<a href="/user/<%= comment.user._id %>"><%= comment.user.name %></a>
+													</span>
+												<span class="be-comment-time">
+													<i class="fa fa-clock-o"></i>
+													<%= comment.dateCreate %>
+												</span>
+
+											<p class="be-comment-text">
+												<%= comment.text %>
+											</p>
+										</div>
+									</div>
+							    <% }); %>
+					    	</div>
+						</div>
+					</div>
+					<div class="col-md-3 col-md-pull-9 left-feild">
+						<div class="be-user-block">
+							<div class="be-user-detail">
+								<a class="be-ava-user" href="/user/<%= data.user._id %>">
+									<img src="/user/image/<%= data.user._id %>" alt=""> 
+								</a>
+								<p class="be-use-name"><%= data.user.name %></p>
+								<span class="be-user-info">
+									<%= data.user.description %>
+								</span>
+							</div>
+						</div>
+						
+						<h3 class="letf-menu-article text-center">Postagens Recentes</h3>					
+						<div class="swiper-container" data-loop="1" data-speed="500" data-center="0" data-slides-per-view="1">
+	                        <div class="swiper-wrapper">
+	                        	<% postsByUser.forEach(function(post) { %>
+									<div class="swiper-slide">
+		                            	<div class="be-post">
+											<a href="/post/<%= post.url %>" class="be-img-block">
+												<img src="/post/image/<%= post._id %>" height="202" width="269" alt="omg">
+											</a>
+											<a href="blog-detail-2.html" class="be-post-title"><%= post.title %> </a>
+											<span>
+												<%= post.description %>
+											</span>
+											<div class="author-post">
+												<img src="/user/image/<%= post.user._id %>" alt="" class="ava-author">
+												<span>Por <a href="/user/<%= post.user._id %>"><%= post.user.name %></a></span>
+											</div>
+											<div class="info-block">
+												<span><i class="fa fa-thumbs-o-up" onclick="likePost('<%= post._id %>');"></i> <label data-info="count" data-post="<%= post._id %>"><%= post.likes.length %></label></span>
+												<span><i class="fa fa-eye"></i> <%= post.views %></span>
+												<span><i class="fa fa-comment-o"></i> <%= post.comments.length %></span>
+											</div>
+										</div>
+		                            </div>
+							    <% }); %>
+	                        </div>
+	                        <div class="pagination">
+	                        	
+	                        </div>
+	                    </div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<% include partial/footer %>
+	</body>
+</html>
