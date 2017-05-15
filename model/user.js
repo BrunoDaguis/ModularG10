@@ -153,6 +153,29 @@ var user = {
 			});	
 		});
 	},
+	addFollow: function(userId, followId, callback){
+		user.getById(userId, function(result){
+
+			result.followers.push(followId);
+			
+			result.save(function(err) {
+				if (err)
+					return console.log(err);
+
+				callback(result);
+			});	
+		});
+	},
+	removeFollow: function(userId, followId, callback){
+		UserModel.update(
+		  { _id: userId },
+		  { $pullAll: { 'followers': [followId]}}, function(err) {
+		    if (err)
+		      return console.log(err);
+
+		    callback();
+		});
+	},
 	getByEmail: function(email, callback){
 		UserModel.findOne({ 'email': email }, function(err, result) {
 		    if (err)

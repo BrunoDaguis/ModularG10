@@ -38,27 +38,33 @@
 									<%- data.content %>
 								</div>
 							</div>
-							<div class="be-large-post-align">
-								<h3 class="letf-menu-article">
-									Tags
-								</h3>
-								<div class="tags_block clearfix">
-									<ul>
-										<% data.tags.forEach(function(tag) { %>
-											<li><a href="/post/tags/<%= tag %>"><%= tag %></a></li>
-									    <% }); %>
-									</ul>
-								</div>
-							</div>						
+							<% if(data.tags.length > 0) { %>
+								<div class="be-large-post-align">
+									<h3 class="letf-menu-article">
+										Tags
+									</h3>
+									<div class="tags_block clearfix">
+										<ul>
+											<% data.tags.forEach(function(tag) { %>
+												<li><a href="/post/tags/<%= tag %>"><%= tag %></a></li>
+										    <% }); %>
+										</ul>
+									</div>
+								</div>						
+							<% } %>
 						</div>
 						<div class="row">
 							<% relateds.forEach(function(post) { %>
 								<% if(post._id != data._id) { %>
 									<div class="col-md-4">
 										<div class="be-post">
-											<a href="/post/<%= post.url %>" class="be-img-block">
-											<img src="/post/image/<%= post._id %>" alt="omg">
-											</a>
+											<% if(post.videoThumb) { %>
+												<iframe style="position: relative; height: 100%; width: 100%;" src="<%= post.videoThumb %>" frameborder="0" allowfullscreen></iframe>
+											<% } else { %>
+												<a href="/post/<%= post.url %>" class="be-img-block">
+													<img style="position: relative; height: 215px;width: 215px;" src="/post/image/<%= post._id %>" alt="omg">
+												</a>
+											<% } %>
 											<a href="blog-detail-2.html" class="be-post-title"><%= post.title %></a>
 											<span>
 												<%= post.description %>
@@ -146,7 +152,7 @@
 												<iframe style="position: relative; height: 100%; width: 100%;" src="<%= post.videoThumb %>" frameborder="0" allowfullscreen></iframe>
 											<% } else { %>
 												<a href="/post/<%= post.url %>" class="be-img-block">
-													<img src="/post/image/<%= post._id %>" alt="omg">
+													<img style="position: relative; height: 215px;width: 215px;" src="/post/image/<%= post._id %>" alt="omg">
 												</a>
 											<% } %>
 											<a href="blog-detail-2.html" class="be-post-title"><%= post.title %> </a>

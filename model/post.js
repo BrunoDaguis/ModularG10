@@ -129,7 +129,7 @@ var post = {
 		});
 	},
 	get: function(callback){
-		PostModel.find({}).populate('user').exec(function(err, results) {
+		PostModel.find({}).populate('user').populate('comments').exec(function(err, results) {
 		    if (err)
 		      return console.log(err);
 
@@ -188,6 +188,22 @@ var post = {
 
 				callback(result);
 			});	
+		});
+	},
+	getBySearchTerm: function(search, callback){
+		if(!search){
+			post.get(function(posts){
+			
+				callback(posts);
+			});		
+			return;
+		}
+
+		PostModel.find({$or:[{"title": new RegExp(".*" + search.replace(/(\W)/g, "\\$1") + ".*", "i")}, {tags: search}]}).populate('user').populate('comments').exec(function(err, posts) {
+		    if (err)
+		      return console.log(err);
+
+		    callback(posts);
 		});
 	}
 }

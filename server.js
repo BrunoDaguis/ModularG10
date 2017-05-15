@@ -15,6 +15,8 @@ var likePostModel = require('./model/likePost.js');
 var viewPostModel = require('./model/viewPost.js');
 var viewUserModel = require('./model/viewUser.js');
 
+var followUserModel = require('./model/followUser.js');
+
 var bodyParser= require('body-parser');
 
 var app = express();
@@ -48,12 +50,10 @@ app.listen(app.get('port'), () => {
 });
 
 function authenticate(email, pass, fn) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-  	if (!module.parent) console.log('authenticating %s:%s', email, pass);       
-
   	userModel.login({email:email, password: pass}, function(user){
 		fn(user);
-	});                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-}      
+	});
+}
 
 function restrict(req, res, next) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
   if (req.session.user) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
@@ -73,6 +73,19 @@ app.get('/logout', function (req, res) {
 	req.session = null
 
 	return res.redirect('/');
+});
+
+app.get('/search', function (req, res) {
+	var url = require('url');
+	var url_parts = url.parse(req.url, true);
+	var query = url_parts.query;
+	
+	var search = query.q;
+
+	postModel.getBySearchTerm(search, function(posts){
+		res.render('index', {data: posts, search: search, session: req.session.user});
+	});
+	
 });
 
 app.get('/post/new', function (req, res) {
@@ -95,8 +108,8 @@ app.get('/post/image/:post', function (req, res) {
 		}			
 
 		var img = fs.readFileSync('views/img/fundopreto.jpg');
-		 res.writeHead(200, {'Content-Type': 'image/jpeg' });
-		 res.end(img, 'binary');
+		res.writeHead(200, {'Content-Type': 'image/jpeg' });
+		return res.end(img, 'binary');
 	});			
 });
 
@@ -157,7 +170,8 @@ app.get('/user/myprofile', function (req, res) {
 
 		});
 	
-	});				
+	});	
+
 });
 
 app.get('/user/edit/myprofile', function (req, res) {
@@ -177,10 +191,7 @@ app.get('/user', function (req, res) {
 });
 
 app.get('/user/image/:user', function (req, res) {
-	console.log(req.params.user);
-
 	if(!req.params.user){
-
 		return res.status(401).send();
 	}
 	userModel.getById(req.params.user, function(user){
@@ -211,7 +222,12 @@ app.get('/user/:user', function (req, res) {
 				userModel.addView(user._id, view._id, function(){
 
 					postModel.getByUser(user._id, function(posts){
-						return res.render('author', {user: user, posts: posts, likes: likes, session: req.session.user});
+
+						followUserModel.getByUserFollow(req.session.user._id, user._id, function(follow){
+							return res.render('author', {user: user, follow: follow !== null , posts: posts, likes: likes, session: req.session.user});
+						});
+
+						
 					});	
 
 				});													
@@ -223,8 +239,6 @@ app.get('/user/:user', function (req, res) {
 	});			
 
 });
-
-
 
 /* SERVIÇOS */
 
@@ -275,16 +289,45 @@ app.post('/api/user/follow', (req, res) => {
 	if(!req.session.user){
 		return res.status(401).send();
 	}
-	userModel.getByEmail(req.body.user, function(user){
-		if(!user){
-			userModel.save(req.body, function(user){
-				req.session.user = null;	
-				req.session.user = {_id: user._id, name: user.name};                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-				return res.json({_id: user._id});                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 
+	var json = {
+		userFollow: req.body.userFollow,
+		user: req.session.user._id
+	}
+
+	followUserModel.create(json, function(created, follow){
+		if(!created)
+			return res.json(null); 
+
+		userModel.addFollow(req.body.userFollow, follow._id, function(result){
+
+			userModel.getById(req.body.userFollow, function(user){
+				return res.json(user);
 			});
-		}
-	})	
+			
+		});		
+	});
+		
+});
+
+app.post('/api/user/unfollow', (req, res) => {
+	if(!req.session.user){
+		return res.status(401).send();
+	}
+
+	var json = {
+		userFollow: req.body.userFollow,
+		user: req.session.user._id
+	}
+
+	followUserModel.remove(json, function(follow){
+		userModel.removeFollow(follow.userFollow._id, follow._id, function(result){
+			userModel.getById(req.body.userFollow, function(user){
+				return res.json(user);
+			});
+		});		
+	});
+		
 });
 
 app.put('/api/user', (req, res) => {

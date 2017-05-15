@@ -18,7 +18,17 @@
 								<a class="be-ava-user style-2" href="page1.html">
 									<img src="/user/image/<%= user._id %>" alt=""> 
 								</a>
-								<a class="be-ava-left btn color-1 size-2 hover-1"><i class="fa fa-plus"></i>Seguir</a>
+								<div id="divFollow">
+									<% if(follow) { %>
+										<a class="be-ava-left btn color-1 size-2 hover-1" onclick="unfollow('<%= user._id %>');">
+											<i class="fa fa-minus"></i>Seguindo
+										</a>
+									<% } else { %>
+										<a class="be-ava-left btn color-1 size-2 hover-1" onclick="follow('<%= user._id %>');">
+											<i class="fa fa-plus"></i>Seguir
+										</a>
+									<% } %>
+								</div>
 								<div class="be-ava-right btn btn-message color-4 size-2 hover-7">
 									<i class="fa fa-envelope-o"></i>Mensagem
 									<div class="message-popup">
@@ -63,7 +73,7 @@
 							<div class="be-user-statistic">
 								<div class="stat-row clearfix"><i class="stat-icon icon-views-b"></i> Visualizações<span class="stat-counter"><%= user.views.length %></span></div>
 								<div class="stat-row clearfix"><i class="stat-icon icon-like-b"></i>Curtidas<span class="stat-counter">14335</span></div>
-								<div class="stat-row clearfix"><i class="stat-icon icon-followers-b"></i>Seguidores<span class="stat-counter">2208</span></div>
+								<div class="stat-row clearfix"><i class="stat-icon icon-followers-b"></i>Seguidores<span class="stat-counter" id="countFollowers"><%= user.followers.length %></span></div>
 								<div class="stat-row clearfix"><i class="stat-icon icon-following-b"></i>Seguindo<span class="stat-counter">0</span></div>
 							</div>
 						</div>
@@ -99,7 +109,7 @@
 														<iframe style="position: relative; height: 100%; width: 100%;" src="<%= post.videoThumb %>" frameborder="0" allowfullscreen></iframe>
 													<% } else { %>
 														<a href="/post/<%= post.url %>" class="be-img-block">
-															<img src="/post/image/<%= post._id %>" alt="omg">
+															<img style="height: 215px;width: 215px;" src="/post/image/<%= post._id %>" alt="omg">
 														</a>
 													<% } %>
 													<a href="/post/<%= post.url %>" class="be-post-title"><%= post.title %></a>
@@ -129,7 +139,7 @@
 														<iframe style="position: relative; height: 100%; width: 100%;" src="<%= like.post.videoThumb %>" frameborder="0" allowfullscreen></iframe>
 													<% } else { %>
 														<a href="/post/<%= like.post.url %>" class="be-img-block">
-															<img src="/post/image/<%= like.post._id %>" alt="omg">
+															<img style="position: relative; height: 215px;width: 215px;" src="/post/image/<%= like.post._id %>" alt="omg">
 														</a>
 													<% } %>
 													<a href="/post/<%= like.post.url %>" class="be-post-title"><%= like.post.title %></a>
@@ -158,5 +168,77 @@
 		</div>
 
 		<% include partial/footer %>
+		<script>
+			function follow(userFollow){
+				var obj = {
+		            userFollow: userFollow
+		        }
+
+		        ajax.send({
+		            url: "/api/user/follow",
+		            data: JSON.stringify(obj),
+		            method: "POST",
+		            beforeSend: function () {
+
+		            },
+		            success: function (response) {
+		            	if(!response) return;
+
+		                var html = '<a class="be-ava-left btn color-1 size-2 hover-1" onclick="unfollow(\'' + userFollow +'\');">' +
+										'<i class="fa fa-minus"></i>Seguindo' +
+									'</a>';
+									
+						$("#divFollow").html(html);		
+						$("#countFollowers").html(response.followers.length);
+
+		            },
+		            complete: function () {
+
+		            },
+		            error: function (error) {
+		            	if(error.status === 401){
+		            		alert('Você precisa estar logado para seguir um membro');	
+		            	}	
+		            }
+		        });
+
+		        return false;
+			}
+
+			function unfollow(userFollow){
+				var obj = {
+		            userFollow: userFollow
+		        }
+
+		        ajax.send({
+		            url: "/api/user/unfollow",
+		            data: JSON.stringify(obj),
+		            method: "POST",
+		            beforeSend: function () {
+
+		            },
+		            success: function (response) {
+		            	if(!response) return;
+
+		                var html = '<a class="be-ava-left btn color-1 size-2 hover-1" onclick="follow(\'' + userFollow +'\');">' +
+										'<i class="fa fa-plus"></i>Seguir' +
+									'</a>';
+									
+						$("#countFollowers").html(response.followers.length);
+						$("#divFollow").html(html);
+		            },
+		            complete: function () {
+
+		            },
+		            error: function (error) {
+		            	if(error.status === 401){
+		            		alert('Você precisa estar logado para seguir um membro');	
+		            	}	
+		            }
+		        });
+
+		        return false;
+			}
+		</script>
 	</body>
 </html>
