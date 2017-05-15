@@ -223,7 +223,7 @@ app.get('/user/:user', function (req, res) {
 
 					postModel.getByUser(user._id, function(posts){
 
-						followUserModel.getByUserFollow(req.session.user._id, user._id, function(follow){
+						followUserModel.getByUserFollow(req.session.user == null ? null : req.session.user._id , user._id, function(follow){
 							return res.render('author', {user: user, follow: follow !== null , posts: posts, likes: likes, session: req.session.user});
 						});
 
