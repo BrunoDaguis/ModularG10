@@ -46,8 +46,8 @@ var followUser = {
 		});
 		
 	},
-	getByUser: function(userId, callback){
-		FollowUserModel.find({user: userId}).populate('userFollow').exec(function(err, follows) {
+	getByUser: function(userFollowId, callback){
+		FollowUserModel.find({userFollow: userFollowId}).populate('user').exec(function(err, follows) {
 
 	    	if (err)
 		      return console.log(err);

@@ -18,34 +18,7 @@
 								<a class="be-ava-user style-2" href="page1.html">
 									<img src="/user/image/<%= user._id %>" alt=""> 
 								</a>
-								<div id="divFollow">
-									<% if(follow) { %>
-										<a class="be-ava-left btn color-1 size-2 hover-1" onclick="unfollow('<%= user._id %>');">
-											<i class="fa fa-minus"></i>Seguindo
-										</a>
-									<% } else { %>
-										<a class="be-ava-left btn color-1 size-2 hover-1" onclick="follow('<%= user._id %>');">
-											<i class="fa fa-plus"></i>Seguir
-										</a>
-									<% } %>
-								</div>
-								<div class="be-ava-right btn btn-message color-4 size-2 hover-7">
-									<i class="fa fa-envelope-o"></i>Mensagem
-									<div class="message-popup">
-										<div class="message-popup-inner container">
-											<div class="row">
-												<div class="col-xs-12 col-sm-8 col-sm-offset-2">
-													<i class="fa fa-times close-button"></i>
-													<h5 class="large-popup-title">Enviar Mensagem</h5>
-													<div class="form-group">
-														<textarea class="form-input" required="" placeholder="Sua mensagem"></textarea>
-													</div>
-													<a class="btn btn-right color-1 size-1 hover-1">Enviar</a>	
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
+								
 								<p class="be-use-name"><%= user.name %></p>
 								
 								<div class="be-user-social">			

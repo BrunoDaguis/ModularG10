@@ -161,7 +161,12 @@ app.get('/user/myprofile', function (req, res) {
 				userModel.addView(user._id, view._id, function(){
 
 					postModel.getByUser(user._id, function(posts){
-						return res.render('author', {user: user, posts: posts, likes: likes, session: req.session.user});
+
+						followUserModel.getByUser(user._id, function(followers){
+							return res.render('my-profile.ejs', {user: user, posts: posts, likes: likes, followers: followers, session: req.session.user});
+						});	
+
+						
 					});	
 
 				});													
@@ -224,7 +229,14 @@ app.get('/user/:user', function (req, res) {
 					postModel.getByUser(user._id, function(posts){
 
 						followUserModel.getByUserFollow(req.session.user == null ? null : req.session.user._id , user._id, function(follow){
-							return res.render('author', {user: user, follow: follow !== null , posts: posts, likes: likes, session: req.session.user});
+
+							followUserModel.getByUser(user._id, function(followers){
+
+							
+								return res.render('author', {user: user, follow: follow !== null , posts: posts, likes: likes, followers: followers, session: req.session.user});
+							});	
+
+							
 						});
 
 						
