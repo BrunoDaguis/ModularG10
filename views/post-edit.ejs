@@ -2,6 +2,118 @@
 <html>
 	<head>
 		<% include partial/css %>
+		<style type="text/css">
+		/* ===== Thumbnail ===== */
+
+.thumbnail {
+  background: none;
+  position: relative;
+  border: 0;
+  padding: 0;
+  margin-bottom: 0;
+  text-align: center;
+}
+.thumbnail .caption {
+  padding: 12px 0 0 0;
+  text-align: left;
+}
+.thumbnail .caption.text-center {
+  text-align: center;
+}
+.thumbnail .caption h6 small {
+  display: block;
+  margin-top: 4px;
+}
+
+
+.thumbnail-boxed .caption { 
+  padding: 12px 12px; 
+}
+.caption .caption-title { 
+  font-size: 14px; 
+  font-weight: 600; 
+  margin-bottom: 8px; 
+  display: block; 
+}
+
+.thumbnail-boxed {
+  border: 1px solid #ddd;
+  padding: 2px;
+  border-radius: 2px;
+  background-color: #fff;
+}
+.thumbnail-boxed .item-info {
+  margin-bottom: 12px;
+}
+
+.thumbnail img,
+.thumbnail a img {
+  margin-right: auto;
+  margin-left: auto;
+  display: block;
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  z-index: 2;
+  border-radius: 2px;
+}
+
+.thumb { 
+  position: relative; 
+  display: inline-block; 
+}
+.thumb:hover 
+.thumb-options {
+  opacity: 1;
+}
+
+.thumbnail iframe {
+  width: 100%;
+  max-width: 100%;
+  height: 250px;
+  border: 0;
+}
+
+
+/* Thumb options on hover */
+
+.thumb-zoom { 
+  background: #32434D url(../images/interface/zoom.png) no-repeat 50%; 
+  display: inline-block; 
+  border-radius: 2px; 
+  border: 0; 
+}
+.thumb-zoom img { 
+  opacity: 1; 
+}
+.thumb-zoom:hover img { 
+  opacity: 0.2; 
+}
+
+
+.thumb-options {
+  border-radius: 2px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(50,67,77,0.8);
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  text-align: center;
+}
+.thumb-options span {
+  display: block;
+    top: 50%;
+  position: absolute;
+  margin-top: -17px;
+  width: 100%;
+
+}
+.thumb-options span a + a {
+  margin-left: 5px;
+}
+		</style>
 	</head>
 	<body data-spy="scroll" data-target="blog-detail-2.htmlscrollspy">
 
@@ -20,17 +132,17 @@
 			</div>
 			<div class="container be-detail-container">
 				<div class="row">
-					<div class="col-xs-12 col-md-3 left-feild" style="visibility:hidden;">
+					<div class="col-xs-12 col-md-3 left-feild">
 						<div class="be-vidget back-block">
 							<a class="btn full color-1 size-1 hover-1" href="/"><i class="fa fa-chevron-left"></i>Voltar</a>
 						</div>
 						<div class="be-vidget hidden-xs hidden-sm" id="scrollspy">
 							<h3 class="letf-menu-article">
-								Choose Category
+								Seção
 							</h3>
 							<div class="creative_filds_block">
 								<ul class="ul nav">
-									<li class="edit-ln"><a href="#basic-information">Basic Information</a></li>
+									<li class="edit-ln"><a href="#basic-information">Informações Basicas</a></li>
 									<li class="edit-ln"><a href="#edit-password">Edit Password</a></li>
 									<li class="edit-ln"><a href="#on-the-web">On The Web</a></li>
 									<li class="edit-ln"><a href="#about-me">About Me</a></li>
@@ -44,25 +156,65 @@
 						<div class="sec" data-sec="basic-information">
 							<div class="be-large-post">
 								<div class="info-block style-2">
-									<div class="be-large-post-align "><h3 class="info-block-label">Basic Information</h3></div>
+									<div class="be-large-post-align "><h3 class="info-block-label">Informações basicas</h3></div>
 								</div>
-								<div class="be-large-post-align">
-									<div class="be-change-ava">
-										<a class="be-ava-user style-2" href="javascript:void(0);">
-											<img id="imagePost" src="\img\ava_10.jpg" alt=""> 
-										</a>
-										<a class="btn color-4 size-2 hover-7" onclick="document.getElementById('fileImage').click(); ">Selecionar Imagem</a>
-									</div>
-								</div>
+
 								<div class="be-large-post-align">
 									<div class="row">
-										<div class="input-col col-xs-12 col-sm-12">
+										<div class="input-col col-xs-12 col-sm-6">
 											<div class="form-group fg_icon focus-2">
-												<div class="form-label">Thumb Video</div>
-												<input class="form-input" type="text" id="videoThumb" placeholder="Ex.: https://www.youtube.com/embed/CRLCe-q_R0A">
+												<div class="form-label">Tipo Thumb</div>
+												<select class="form-input" id="typeThumb">
+													<option value="1">Imagem</option>
+													<option value="2">Video</option>
+												</select>
 											</div>							
 										</div>
+									</div>
+								</div>
+								
+								
+								<div class="be-large-post-align" id="divThumbImage">
+									<div class="row">
+										<div class="input-col col-xs-12 col-sm-5" >
+									    	<div class="thumbnail">
+									    		<div class="thumb">
+													<img id="imagePost" alt="" src="http://placehold.it/269x202">
+													<div class="thumb-options">
+														<span>
+															<a href="javascript:void(0);" onclick="document.getElementById('fileImage').click(); " class="btn btn-icon btn-success">
+																<i class="icon-upload"></i>
+															</a>
+															<a href="#" class="btn btn-icon btn-success"><i class="icon-remove"></i></a>
+														</span>
+													</div>
+										    	</div>
+									    	</div>
+									   </div>
+									</div>
+								</div>
+								
+								<div class="be-large-post-align" id="divThumbVideo" style="display:none;">
+									<div class="input-col col-xs-12 col-sm-12">
+										<div class="form-group fg_icon focus-2">
+											<input class="form-input" type="text" id="videoThumb" placeholder="Ex.: https://www.youtube.com/embed/CRLCe-q_R0A">
+										</div>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-6">
+										<div class="block">
+										    <div class="thumbnail thumbnail-boxed">
+										    	<div class="thumb">
+													<iframe src="http://www.youtube.com/embed/yo3M6EB8kmk" id="frameVideo"></iframe>
+											    </div>
+										    </div>
+										</div>
+									</div>
+								</div>
+							
 
+								<div class="be-large-post-align">
+									<div class="row">
+										
 										<div class="input-col col-xs-12 col-sm-12">
 											<div class="form-group fg_icon focus-2">
 												<div class="form-label">Titulo</div>
@@ -119,6 +271,25 @@
 
 				$("#tags").tagsInput({
 	                width:'100%'
+	            });
+
+				$("#videoThumb").blur(function(){
+					$("#frameVideo").attr('src', $(this).val());
+				});
+
+	            $("#typeThumb").change(function(){
+	            	var type = $("#typeThumb option:selected").val();
+	            	
+
+					if(type == 1){
+						$("#divThumbVideo").hide();
+						$("#divThumbImage").show();
+	            	}
+
+	            	if(type == 2){
+						$("#divThumbVideo").show();
+						$("#divThumbImage").hide();
+	            	}
 	            });
 			})
 

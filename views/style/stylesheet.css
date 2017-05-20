@@ -95,7 +95,9 @@ header { height: 70px; width: 100%; color: #fff; font-size: 14px; background: #2
 
 header .custom-container { position: relative; }
 
-header .row-header .brand-be { margin-top: 16.5px; float: left; }
+header .row-header .brand-be { margin-left: -15px; margin-top: 16.5px; float: left; }
+
+header .header-search { width: 20%;; margin-top: 16.5px; float: left; }
 
 header .row-header .header-menu-block { position: absolute;
     top: 0px; left: 50%; -webkit-transform: translateX(-50%);
@@ -260,7 +262,8 @@ a.settings>i{font-size: 16px !important;}
 
 .be-drop-down.login-user-down ul { font-size: 10px; }
 
-.be-drop-down .login-user { border-radius: 40px; }
+.be-drop-down .login-user { border-radius: 40px; height: auto; width: auto; max-width: 40px; max-height: 40px; }
+
 header .header-menu > #ad-work-li {position: static; float: right;margin-top: 20px; padding: 0px;}
 @media screen and (min-width: 992px) and (max-width: 1400px) { .login_block .be-drop-down { margin-right: 5px; } }
 
@@ -314,14 +317,16 @@ header .header-menu > #ad-work-li {position: static; float: right;margin-top: 20
      opacity: 1; }
   .cmn-toggle-switch { display: none; } }
 
-@media screen and (max-width: 1199px) { .brand-be { position: absolute; left: 50%; text-align: center; -webkit-transform: translateX(-50%) !important; -ms-transform: translateX(-50%) !important; transform: translateX(-50%) !important; }
+@media screen and (max-width: 1199px) { 
+  .brand-be { position: absolute; left: 50%; text-align: center; -webkit-transform: translateX(-50%) !important; -ms-transform: translateX(-50%) !important; transform: translateX(-50%) !important; }
   .fa-angle-right { display: none; }
   header .header-menu > #ad-work-li {float: none;}
   .fa-angle-down, .fa-angle-up { display: block; position: absolute; right: 15px; top: 10px; -webkit-transform: translateY(-50%); -ms-transform: translateY(-50%); transform: translateY(-50%); }
   header { z-index: 550; }
   .header-menu { height: auto; display: none; width: 100%; background: #1B212C; text-align: center; font-size: 26px; position: absolute; top: 70px; left: -1px; overflow: auto; padding-bottom: 15px; }
   .header-menu ul { display: none; width: 100%; background: #FFF; text-align: center; font-size: 26px; }
-  .page-login .header-menu { padding-top: 60px; }
+  .page-login .header-menu { padding-top: 60px; } 
+
   .header-menu > li > a { font-size: 20px; }
   .header-menu > li > ul > li > a { font-size: 18px; }
   .header-menu > li > ul > li > ul a { font-size: 16px; }
@@ -330,12 +335,29 @@ header .header-menu > #ad-work-li {position: static; float: right;margin-top: 20
   .header-menu i { top: 24px; width: 32px; height: 32px; cursor: pointer; }
   .header-menu > li > ul > li > ul { background: #E6E6E6 !important; }
   .header-menu.header-menu li { position: relative; text-align: center; text-align: center; display: block; padding: 0; }
+
   .cmn-toggle-switch { position: absolute; left: 12px; top: 14px; }
+  .header-search { position: absolute; left: 15%; text-align: center; }
+
   .header-menu-block { z-index: 250; position: absolute; top: 100%; width: 100%; margin: 0; margin: 0 !important; left: 0; }
-  .login_block { float: right; }
-  .login_block .be-drop-down { display: none; position: absolute; left: 15px; top: 86px; z-index: 300; }
-  .login_block .be-drop-down.login-user-down { display: none; position: absolute; top: 86px; right: 12px; left: auto; z-index: 300; margin-right: 0px; }
+  
+
+  .login_block { float: right;  }
+
+  .login_block .be-drop-down { position: absolute; z-index: 300; right: 12%; margin-top: -2px  }
+
+  /*.login_block .be-drop-down { position: absolute; left: 15px; top: 86px; z-index: 300; }
+  .login_block .be-drop-down.login-user-down {  position: absolute; top: 86px; right: 12px; left: auto; z-index: 300; margin-right: 0px; }*/
+
+  .be-dropdown-content {display: none;}
+
+
+  /*.login_block { float: right;  }
+  .login_block .be-drop-down { position: absolute; left: 15px; top: 86px; z-index: 300; }
+  .login_block .be-drop-down.login-user-down {  position: absolute; top: 86px; right: 12px; left: auto; z-index: 300; margin-right: 0px; }*/
+
   .messages-popup, .notofications-popup { margin-top: 10px; }
+
   body.menu-open .login_block .be-drop-down { display: inline-block; }
   header .col-xs-3:last-child { float: right; }
   .header-menu > li ul { background: #F6F6F6; margin: 0; padding: 0; }

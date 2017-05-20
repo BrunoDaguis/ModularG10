@@ -17,9 +17,6 @@
 				<div class="brand-be">
 					<a href="/">
 						<img class="logo-c active be_logo" src="\img\logo.png" alt="logo">
-						<img class="logo-c be_logo" src="img\logo-green.png" alt="logo2">
-						<img class="logo-c be_logo" src="img\logo-orang.png" alt="logo3">
-						<img class="logo-c be_logo" src="img\logo-red.png" alt="logo4">
 					</a>
 				</div>
 
@@ -46,14 +43,13 @@
 					</div>	
 				</div>
 
-				<div class="login-header-block">
-					<form action="./" class="input-search" id="formSearch">
-						<input type="text" required="" id="searchTerm" placeholder="Pessoas, Tags, Temas">
-							<i class="fa fa-search"></i>
-							<input type="submit" value="">
-					</form>							
-				</div>	
-
+				<div class="header-search">
+					<form id="formSearch" class="input-search" role="search">
+					    <input type="text" required="" class="form-control" placeholder="Pesquisar no IDEIAS">
+								<i class="fa fa-search"></i>
+								<input type="submit" value="">
+					</form>
+				</div>
 			</div>
 		</div>
 	</header>
@@ -267,8 +263,8 @@
 							</div>							
 						</div>
 						<div class="be-drop-down login-user-down">
-							<img class="login-user" style="width: 60px;height:45px;" src="/user/image/<%= session._id %>" alt="">
-							<span class="be-dropdown-content">Oi, <span><%= session.name %></span></span>
+							<img class="login-user"  src="/user/image/<%= session._id %>" alt="">
+							<span class="be-dropdown-content"><span><%= session.name %></span></span>
 							<div class="drop-down-list a-list">
 								<a href="/user/myprofile %>">Meu Perfil</a>
 								<a href="statictics.html">Statistics </a>
@@ -294,7 +290,15 @@
 						<li><a href="site-map.html">Site Map</a></li>
 						<li id="ad-work-li"><a id="add-work-btn" class="btn color-1" href="/post/new">Criar Postagem </a></li>
 					</ul>
-				</div>*				
+				</div>
+
+				<div class="header-search">
+					<form id="formSearch" class="input-search" role="search">
+					    <input type="text" required="" class="form-control" placeholder="Pesquisar no IDEIAS">
+								<i class="fa fa-search"></i>
+								<input type="submit" value="">
+					</form>
+				</div>				
 			</div>
 		</div>
 	</header>
