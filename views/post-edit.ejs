@@ -113,6 +113,65 @@
 .thumb-options span a + a {
   margin-left: 5px;
 }
+
+.tagsinput {
+  border: 1px solid #d5d5d5;
+  background: #fff;
+  padding: 0 0 3px 0;
+  width: 100%;
+  overflow-y: auto;
+}
+.tagsinput span.tag {
+  display: block;
+  float: left;
+  position: relative;
+  padding: 7px 12px 8px 26px;
+  background: #239169;
+  color: #fff;
+  margin: 3px 0 0 3px;
+}
+.tagsinput span.tag a {
+  display: block;
+  text-indent: -9999px;
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  left: 8px;
+  top: 10px;
+  outline: none;
+  background: url(/img/clear_results.png) no-repeat 50%;
+}
+.tagsinput span.tag a:hover {
+  opacity: 0.6;
+  filter: alpha(Opacity=60);
+}
+.tagsinput input {
+  width: 120px;
+  border: none;
+  padding: 7px 12px 8px 12px;
+  background: transparent;
+  margin: 3px 0 0 0;
+}
+.tagsinput input:focus {
+  outline: 0;
+}
+.tagsinput div {
+  display: block;
+  float: left;
+  position: relative;
+  margin-left: 3px;
+}
+.tags_clear {
+  clear: both;
+  height: 0px;
+}
+.not_valid {
+  background: #FBD8DB !important;
+  color: #90111A !important;
+}
+.tagsinput .ui-helper-hidden-accessible {
+  display: none;
+}
 		</style>
 	</head>
 	<body data-spy="scroll" data-target="blog-detail-2.htmlscrollspy">
@@ -142,79 +201,24 @@
 							</h3>
 							<div class="creative_filds_block">
 								<ul class="ul nav">
-									<li class="edit-ln"><a href="#basic-information">Informações Basicas</a></li>
-									<li class="edit-ln"><a href="#edit-password">Edit Password</a></li>
-									<li class="edit-ln"><a href="#on-the-web">On The Web</a></li>
-									<li class="edit-ln"><a href="#about-me">About Me</a></li>
-									<li class="edit-ln"><a href="#web-references">Web References</a></li>
+									<li class="edit-ln"><a href="#basicos">Dados Básicos</a></li>
+									<li class="edit-ln"><a href="#thumb">Thumbs</a></li>
+									<li class="edit-ln"><a href="#conteudo">Conteúdo</a></li>
+									<li class="edit-ln"><a href="#config">Configurações</a></li>
 								</ul>
 							</div>
 						</div>
 
 					</div>
 					<div class="col-xs-12 col-md-9 _editor-content_">
-						<div class="sec" data-sec="basic-information">
+						<div class="sec" data-sec="basicos">
 							<div class="be-large-post">
 								<div class="info-block style-2">
-									<div class="be-large-post-align "><h3 class="info-block-label">Informações basicas</h3></div>
+									<div class="be-large-post-align "><h3 class="info-block-label">Dados Básicos</h3></div>
 								</div>
 
 								<div class="be-large-post-align">
 									<div class="row">
-										<div class="input-col col-xs-12 col-sm-6">
-											<div class="form-group fg_icon focus-2">
-												<div class="form-label">Tipo Thumb</div>
-												<select class="form-input" id="typeThumb">
-													<option value="1">Imagem</option>
-													<option value="2">Video</option>
-												</select>
-											</div>							
-										</div>
-									</div>
-								</div>
-								
-								
-								<div class="be-large-post-align" id="divThumbImage">
-									<div class="row">
-										<div class="input-col col-xs-12 col-sm-5" >
-									    	<div class="thumbnail">
-									    		<div class="thumb">
-													<img id="imagePost" alt="" src="http://placehold.it/269x202">
-													<div class="thumb-options">
-														<span>
-															<a href="javascript:void(0);" onclick="document.getElementById('fileImage').click(); " class="btn btn-icon btn-success">
-																<i class="icon-upload"></i>
-															</a>
-															<a href="#" class="btn btn-icon btn-success"><i class="icon-remove"></i></a>
-														</span>
-													</div>
-										    	</div>
-									    	</div>
-									   </div>
-									</div>
-								</div>
-								
-								<div class="be-large-post-align" id="divThumbVideo" style="display:none;">
-									<div class="input-col col-xs-12 col-sm-12">
-										<div class="form-group fg_icon focus-2">
-											<input class="form-input" type="text" id="videoThumb" placeholder="Ex.: https://www.youtube.com/embed/CRLCe-q_R0A">
-										</div>
-									</div>
-									<div class="col-lg-6 col-md-6 col-sm-6">
-										<div class="block">
-										    <div class="thumbnail thumbnail-boxed">
-										    	<div class="thumb">
-													<iframe src="http://www.youtube.com/embed/yo3M6EB8kmk" id="frameVideo"></iframe>
-											    </div>
-										    </div>
-										</div>
-									</div>
-								</div>
-							
-
-								<div class="be-large-post-align">
-									<div class="row">
-										
 										<div class="input-col col-xs-12 col-sm-12">
 											<div class="form-group fg_icon focus-2">
 												<div class="form-label">Titulo</div>
@@ -230,8 +234,8 @@
 										</div>
 										<div class="input-col col-xs-12 col-sm-6">
 											<div class="form-group fg_icon focus-2">
-												<div class="form-label">Tags</div>
-												<input class="form-input" type="text" id="tags" placeholder="Tags">
+												<div class="form-label">Marcadores</div>
+												<input class="form-input" type="text" id="tags" placeholder="Marcadores">
 											</div>							
 										</div>
 										<div class="input-col col-xs-12 col-sm-12">
@@ -240,19 +244,99 @@
 												<input class="form-input" type="text" id="video" placeholder="Ex.: https://www.youtube.com/embed/CRLCe-q_R0A">
 											</div>							
 										</div>
-										<div class="input-col col-xs-12 col-sm-12">
-											<div class="form-group fg_icon focus-2">
-												<div id="editor">
-
-                                				</div>	
-											</div>							
-										</div>
+										
 															
 									</div>
 								</div>
 							</div>
 						</div>
-																		
+
+						<div class="sec" data-sec="thumb">
+							<div class="be-large-post">
+								<div class="info-block style-2">
+									<div class="be-large-post-align "><h3 class="info-block-label">Imagem de Thumb</h3></div>
+								</div>
+
+								<div class="be-large-post-align">
+									<div class="row">
+										<div class="input-col col-xs-12 col-sm-6">
+											<div class="form-group fg_icon focus-2">
+												<div class="form-label">Tipo</div>
+												<select class="form-input" id="typeThumb">
+													<option value="1">Imagem</option>
+													<option value="2">Video</option>
+												</select>
+											</div>							
+										</div>
+										<div class="input-col col-xs-12 col-sm-12" id="divThumbImage">
+											<div class="form-group fg_icon focus-2">
+												<div class="form-label">Preview</div>
+									    		<div class="thumb">
+													<img id="imagePost" alt="" src="http://placehold.it/269x202">
+													<div class="thumb-options">
+														<span>
+															<a href="javascript:void(0);" onclick="document.getElementById('fileImage').click(); " >
+																<i class="fa fa-upload"></i>
+															</a>
+															<a href="javascript:void(0);" onclick="removeImageThumb();" ><i class="fa fa-times"></i></a>
+														</span>
+													</div>
+										    	</div>
+											</div>							
+										</div>	
+
+										<div class="input-col col-xs-12 col-sm-12" id="divThumbVideo" style="display:none;">
+											<div class="form-group fg_icon focus-2">
+												<div class="form-label">Link do Video</div>
+												<input class="form-input" type="text" id="video" placeholder="Ex.: https://www.youtube.com/embed/CRLCe-q_R0A">
+											</div>		
+											<div class="form-group fg_icon focus-2">
+												<div class="form-label">Preview</div>
+									    		<iframe src="http://www.youtube.com/embed/yo3M6EB8kmk" id="frameVideo"></iframe>
+											</div>							
+										</div>					
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="sec" data-sec="conteudo">
+							<div class="be-large-post">
+								<div class="info-block style-2">
+									<div class="be-large-post-align "><h3 class="info-block-label">Conteúdo</h3></div>
+								</div>
+								<div class="be-large-post">
+									<div class="row">
+										<div class="input-col col-xs-12 col-sm-12">
+											<div class="form-group fg_icon focus-2">
+												<div id="editor">
+
+		                        				</div>	
+											</div>							
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>	
+
+						<div class="sec" data-sec="config">
+							<div class="be-large-post">
+								<div class="info-block style-2">
+									<div class="be-large-post-align "><h3 class="info-block-label">Configurações</h3></div>
+								</div>
+
+								<div class="be-large-post-align">
+									<div class="row">
+										<div class="input-col col-xs-12 col-sm-12">
+											<div class="form-group fg_icon focus-2">
+												<div class="form-label">Permitir Comentários de outros membros</div>
+												<input type="checkbox" value="Permitir" id="enableComment" >
+											</div>							
+										</div>					
+									</div>
+								</div>
+							</div>
+						</div>											
 					</div>				
 				</div>
 			</div>
@@ -268,6 +352,7 @@
 			var image;
 			$(function(){
 				initSample('');
+
 
 				$("#tags").tagsInput({
 	                width:'100%'
@@ -313,7 +398,8 @@
 					image: image,
 					imageExtension: imageExtension,
 					tags: tags,
-					user: ''
+					user: '',
+					enableComment: $("#enableComment").prop('checked')
 				}
 
 				ajax.send({
@@ -332,6 +418,13 @@
 
                     }
                 });
+			}
+
+			function removeImageThumb(){
+				image = null;
+                imageExtension = null;
+
+                $("#imagePost").attr('src', 'http://placehold.it/269x202');	
 			}
 
 			function ReadImage(inputElement) {

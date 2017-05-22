@@ -16,7 +16,8 @@ var PostSchema   = Schema({
   tags: [{type: String, required: false }],
   dateCreate:  {type: Date, default: Date.now},
   likes: [{type: Schema.ObjectId, ref: "likePost"}],
-  views: {type: Number, default: 0}
+  views: {type: Number, default: 0},
+  enableComment: {type: Boolean, default: true},
 });
 
 var PostModel = mongoose.model('post', PostSchema, 'post');
@@ -35,6 +36,7 @@ var post = {
 		model.tags = json.tags;
 		model.url = parseToUrl(json.title);
 		model.user = json.user;
+		model.enableComment = json.enableComment;
 
 		model.save(function(err) {
 			if (err)
@@ -55,6 +57,7 @@ var post = {
 			result.image = json.image;
 			result.imageExtension = json.imageExtension;
 			result.url = parseToUrl(json.title);
+			result.enableComment = json.enableComment;
 			
 			result.save(function(err) {
 				if (err)

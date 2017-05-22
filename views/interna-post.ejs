@@ -83,51 +83,62 @@
 								<% } %>
 						    <% }); %>
 						</div>
-						<div class="be-comment-block">
-							<h1 class="comments-title">Comentarios (<%= comments.length %>)</h1>
-							<% if(session == null) { %>
-								<p class="about-comment-block">
-									Você deve <a href="blog-detail-2.html" class="be-signup-link">ENTRAR</a>
-									 para poder comentar.
-								</p>
-							<% } else { %>
-								<form class="form-block" id="formComments" >
-									<div class="row">
-										<div class="col-xs-12">									
-											<div class="form-group">
-												<textarea class="form-input" required="" id="message" placeholder="Sua mensagem"></textarea>
+
+						<% if(data.enableComment) { %>
+
+							<div class="be-comment-block">
+								<h1 class="comments-title">Comentarios (<%= comments.length %>)</h1>
+								<% if(session == null) { %>
+									<p class="about-comment-block">
+										Você deve <a href="blog-detail-2.html" class="be-signup-link">ENTRAR</a>
+										 para poder comentar.
+									</p>
+								<% } else { %>
+									<form class="form-block" id="formComments" >
+										<div class="row">
+											<div class="col-xs-12">									
+												<div class="form-group">
+													<textarea class="form-input" required="" id="message" placeholder="Sua mensagem"></textarea>
+												</div>
+											</div>
+											<a class="btn color-1 size-2 hover-1 pull-right" id="saveComment" >Enviar</a>
+										</div>
+									</form>
+								<% } %>
+								<div id="divComments">
+									<% comments.forEach(function(comment) { %>
+										<div class="be-comment">
+											<div class="be-img-comment">	
+												<a href="blog-detail-2.html">
+													<img src="/user/image/<%= comment.user._id %>" alt="" class="be-ava-comment">
+												</a>
+											</div>
+											<div class="be-comment-content">
+												
+													<span class="be-comment-name">
+														<a href="/user/<%= comment.user._id %>"><%= comment.user.name %></a>
+														</span>
+													<span class="be-comment-time">
+														<i class="fa fa-clock-o"></i>
+														<%= comment.dateCreate %>
+													</span>
+
+												<p class="be-comment-text">
+													<%= comment.text %>
+												</p>
 											</div>
 										</div>
-										<a class="btn color-1 size-2 hover-1 pull-right" id="saveComment" >Enviar</a>
-									</div>
-								</form>
-							<% } %>
-							<div id="divComments">
-								<% comments.forEach(function(comment) { %>
-									<div class="be-comment">
-										<div class="be-img-comment">	
-											<a href="blog-detail-2.html">
-												<img src="/user/image/<%= comment.user._id %>" alt="" class="be-ava-comment">
-											</a>
-										</div>
-										<div class="be-comment-content">
-											
-												<span class="be-comment-name">
-													<a href="/user/<%= comment.user._id %>"><%= comment.user.name %></a>
-													</span>
-												<span class="be-comment-time">
-													<i class="fa fa-clock-o"></i>
-													<%= comment.dateCreate %>
-												</span>
+								    <% }); %>
+						    	</div>
+							</div>
 
-											<p class="be-comment-text">
-												<%= comment.text %>
-											</p>
-										</div>
-									</div>
-							    <% }); %>
-					    	</div>
-						</div>
+						<% } else { %>
+							<div class="be-comment-block">
+								<p class="about-comment-block">
+									Comentários não permitidos pelo criador da ideia.
+								</p>
+							</div>
+						<% } %>
 					</div>
 					<div class="col-md-3 col-md-pull-9 left-feild">
 						<div class="be-user-block">
