@@ -78,13 +78,13 @@
 	                            <div class="tab-info active"> 
 									<div class="row">
 										<% posts.forEach(function(post) { %>
-											<div class="col-ml-12 col-xs-6 col-sm-4">
+											<div class="col-ml-12 col-xs-6 col-sm-6">
 												<div class="be-post">
 													<% if(post.videoThumb) { %>
 														<iframe style="position: relative; height: 100%; width: 100%;" src="<%= post.videoThumb %>" frameborder="0" allowfullscreen></iframe>
 													<% } else { %>
 														<a href="/post/<%= post.url %>" class="be-img-block">
-															<img style="height: 215px;width: 215px;" src="/post/image/<%= post._id %>" alt="omg">
+															<img style="height: 215px;width: 100%;" src="/post/image/<%= post._id %>" alt="omg">
 														</a>
 													<% } %>
 													<a href="/post/<%= post.url %>" class="be-post-title"><%= post.title %></a>
